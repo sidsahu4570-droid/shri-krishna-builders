@@ -24,12 +24,19 @@ export default function Contact() {
       
       const timer = setTimeout(() => {
         if (formCardRef.current) {
-          formCardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const rect = formCardRef.current.getBoundingClientRect();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const targetY = rect.top + scrollTop - 120; // 120px offset to display form header clearly below sticky navbar
+          
+          window.scrollTo({
+            top: targetY,
+            behavior: 'smooth'
+          });
         }
         if (nameInputRef.current) {
-          nameInputRef.current.focus();
+          nameInputRef.current.focus({ preventScroll: true }); // Prevent browser focus from overriding custom smooth scroll positioning
         }
-      }, 300);
+      }, 350);
       return () => clearTimeout(timer);
     }
   }, [prefilledService]);
