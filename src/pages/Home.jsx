@@ -123,6 +123,12 @@ export default function Home({ onOpenVisitModal }) {
 
         <div className="container hero-content">
           <div ref={heroTextRef} className="hero-text-container">
+            {/* Mobile-only logo indicator inside flow */}
+            <div className="mobile-hero-logo-wrapper">
+              <Building className="mobile-hero-logo-icon" />
+              <span className="mobile-hero-logo-text">SHRI KRISHNA</span>
+              <span className="mobile-hero-logo-sub">BUILDERS & DEVELOPERS</span>
+            </div>
             <span className="subtitle-premium hero-reveal">Indore's Architectural Landmarks</span>
             <h1 className="hero-heading hero-reveal">
               Crafting Premium Living Spaces in Indore
