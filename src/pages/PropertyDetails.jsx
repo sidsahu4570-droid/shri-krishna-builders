@@ -796,86 +796,113 @@ export default function PropertyDetails() {
             </div>
 
             {/* Premium Interactive EMI Calculator */}
-            <div className="micro-calc-card card-premium">
-              <div className="micro-calc-header">
-                <CalcIcon size={18} className="calc-accent-icon" />
-                <h4>Dynamic EMI Calculator</h4>
+            <div className="luxury-emi-calc-card">
+              <div className="emi-calc-header">
+                <CalcIcon size={22} className="emi-calc-icon" />
+                <div className="emi-calc-title-box">
+                  <h4>EMI Calculator</h4>
+                  <p>Estimate your monthly investment</p>
+                </div>
               </div>
-              <p className="micro-calc-desc">Calculate estimated monthly installments based on your target payment structures.</p>
               
-              <div className="micro-calc-sliders">
-                {/* Property Price Label */}
-                <div className="calc-price-readout">
-                  <span>Property Price</span>
-                  <strong>₹ {(basePrice / 10000000).toFixed(2)} Cr</strong>
+              <div className="emi-calc-body">
+                {/* Property Price Row */}
+                <div className="emi-price-row">
+                  <span className="emi-price-label">Property Price</span>
+                  <strong className="emi-price-val">₹ {(basePrice / 10000000).toFixed(2)} Cr</strong>
                 </div>
 
-                {/* Down Payment slider */}
-                <div className="micro-slider-row">
-                  <div className="slider-values">
-                    <span>Down Payment ({downPaymentPercent}%)</span>
-                    <strong>₹ {(calculatedDownPayment / 100000).toFixed(1)} Lakh</strong>
+                <div className="emi-sliders-stack">
+                  {/* Down Payment Slider */}
+                  <div className="emi-slider-group">
+                    <div className="emi-slider-headers">
+                      <span className="emi-slider-label">Down Payment</span>
+                      <strong className="emi-slider-val">{downPaymentPercent}% (₹ {(calculatedDownPayment / 100000).toFixed(1)} Lakhs)</strong>
+                    </div>
+                    <input 
+                      type="range" 
+                      min="10" 
+                      max="50" 
+                      step="5"
+                      value={downPaymentPercent} 
+                      onChange={(e) => setDownPaymentPercent(Number(e.target.value))} 
+                      className="emi-luxury-range-slider"
+                    />
                   </div>
-                  <input 
-                    type="range" 
-                    min="10" 
-                    max="50" 
-                    step="5"
-                    value={downPaymentPercent} 
-                    onChange={(e) => setDownPaymentPercent(Number(e.target.value))} 
-                    className="luxury-slider"
-                  />
-                </div>
 
-                {/* Loan Amount Readout */}
-                <div className="calc-price-readout select-amount-row">
-                  <span>Funding Loan Amount</span>
-                  <strong>₹ {(calculatedLoanAmount / 100000).toFixed(1)} Lakh</strong>
-                </div>
-
-                {/* Loan Term slider */}
-                <div className="micro-slider-row">
-                  <div className="slider-values">
-                    <span>Loan Term</span>
-                    <strong>{loanTerm} Years</strong>
+                  {/* Loan Term Slider */}
+                  <div className="emi-slider-group">
+                    <div className="emi-slider-headers">
+                      <span className="emi-slider-label">Loan Term</span>
+                      <strong className="emi-slider-val">{loanTerm} Years</strong>
+                    </div>
+                    <input 
+                      type="range" 
+                      min="5" 
+                      max="30" 
+                      value={loanTerm} 
+                      onChange={(e) => setLoanTerm(Number(e.target.value))} 
+                      className="emi-luxury-range-slider"
+                    />
                   </div>
-                  <input 
-                    type="range" 
-                    min="5" 
-                    max="30" 
-                    value={loanTerm} 
-                    onChange={(e) => setLoanTerm(Number(e.target.value))} 
-                    className="luxury-slider"
-                  />
-                </div>
 
-                {/* Interest Rate slider */}
-                <div className="micro-slider-row">
-                  <div className="slider-values">
-                    <span>Interest Rate</span>
-                    <strong>{interestRate}%</strong>
+                  {/* Interest Rate Slider */}
+                  <div className="emi-slider-group">
+                    <div className="emi-slider-headers">
+                      <span className="emi-slider-label">Interest Rate</span>
+                      <strong className="emi-slider-val">{interestRate}%</strong>
+                    </div>
+                    <input 
+                      type="range" 
+                      min="6.5" 
+                      max="12.0" 
+                      step="0.1" 
+                      value={interestRate} 
+                      onChange={(e) => setInterestRate(Number(e.target.value))} 
+                      className="emi-luxury-range-slider"
+                    />
                   </div>
-                  <input 
-                    type="range" 
-                    min="6.5" 
-                    max="12.0" 
-                    step="0.1" 
-                    value={interestRate} 
-                    onChange={(e) => setInterestRate(Number(e.target.value))} 
-                    className="luxury-slider"
-                  />
                 </div>
-              </div>
 
-              {/* Monthly Installment */}
-              <div className="micro-calc-result" style={{ marginTop: '1.5rem' }}>
-                <span>Estimated Installment</span>
-                <strong>₹ {calculateEMI().toLocaleString('en-IN')} / Month</strong>
-              </div>
+                {/* Highlighted Information Card for Loan Amount */}
+                <div className="emi-loan-info-card">
+                  <span className="emi-loan-card-label">Funding Loan Amount</span>
+                  <strong className="emi-loan-card-val">₹ {(calculatedLoanAmount / 100000).toFixed(1)} Lakhs</strong>
+                </div>
 
-              <div className="approved-badges">
-                <ShieldCheck size={14} className="shield-icon-badge" />
-                <span>Pre-Approved for HDFC, SBI, Axis and ICICI Bank.</span>
+                {/* Monthly Installment Result Card */}
+                <div className="emi-result-highlight-card">
+                  <span className="emi-result-label">Estimated Monthly EMI</span>
+                  <strong className="emi-result-value">₹ {calculateEMI().toLocaleString('en-IN')} / Month</strong>
+                </div>
+
+                {/* Additional Information Badges */}
+                <div className="emi-approved-bank-grid">
+                  <div className="bank-badge-item">
+                    <Check size={14} className="bank-check-icon" />
+                    <span>HDFC Approved</span>
+                  </div>
+                  <div className="bank-badge-item">
+                    <Check size={14} className="bank-check-icon" />
+                    <span>SBI Approved</span>
+                  </div>
+                  <div className="bank-badge-item">
+                    <Check size={14} className="bank-check-icon" />
+                    <span>ICICI Approved</span>
+                  </div>
+                  <div className="bank-badge-item">
+                    <Check size={14} className="bank-check-icon" />
+                    <span>Axis Bank Approved</span>
+                  </div>
+                </div>
+
+                {/* CTA Button */}
+                <button 
+                  onClick={() => setSuccess(true)} 
+                  className="btn btn-secondary w-full emi-consultation-btn"
+                >
+                  Book Financial Consultation
+                </button>
               </div>
             </div>
 
@@ -885,57 +912,90 @@ export default function PropertyDetails() {
       </section>
 
       {/* 4. Similar properties grid loop at the bottom */}
-      <section className="section similar-properties-catalog-wrapper" style={{ borderTop: '1px solid rgba(30, 30, 30, 0.05)', backgroundColor: 'rgba(30,30,30,0.01)' }}>
+      <section className="section similar-offerings-luxury-section">
         <div className="container">
-          <h3 className="premium-section-title centered" style={{ marginBottom: '3rem', textAlign: 'center' }}>Explore Similar Premium Offerings</h3>
+          <div className="similar-section-header">
+            <h3 className="similar-title-h3">Explore Similar Premium Offerings</h3>
+            <div className="similar-gold-divider"></div>
+            <p className="similar-subtitle-p">Discover other carefully curated premium developments that match your preferences.</p>
+          </div>
           
-          <div className="grid-3">
+          <div className="similar-offerings-grid">
             {similarProps.map((prop) => (
-              <div key={prop.id} className="card-premium property-catalog-card">
-                <div className="property-card-image">
-                  <img src={prop.image} alt={prop.name} className="zoom-hover-target" />
-                  <span className="status-label-badge">{prop.status}</span>
-                  <span className="price-tag-badge">{prop.price}</span>
+              <div key={prop.id} className="similar-luxury-card">
+                
+                {/* 16:9 Image block with zoom effect & absolute badges */}
+                <div className="similar-card-image-box">
+                  <img src={prop.image} alt={prop.name} className="similar-zoom-img" />
+                  <div className="similar-image-gradient-overlay"></div>
+                  
+                  {/* Badges on left */}
+                  <div className="similar-badge-group-left">
+                    <span className="similar-status-badge">{prop.status}</span>
+                    <span className="similar-type-badge">{prop.type}</span>
+                  </div>
+
+                  {/* Price Tag in top-right */}
+                  <span className="similar-price-tag-badge">{prop.price}</span>
                 </div>
 
-                <div className="property-card-body">
-                  <div className="property-card-header">
-                    <span className="property-type-tag">{prop.type}</span>
-                    <h3 className="property-title-name">{prop.name}</h3>
+                <div className="similar-card-content-body">
+                  <h4 className="similar-card-title-h4">{prop.name}</h4>
+
+                  <div className="similar-card-location-row">
+                    <MapPin size={14} className="location-pin-icon" />
+                    <span className="location-address-text">{prop.location}</span>
                   </div>
 
-                  <div className="property-location-tag">
-                    <MapPin size={15} />
-                    <span>{prop.location}</span>
-                  </div>
-
-                  <p className="property-intro-desc">
+                  <p className="similar-card-tagline-desc">
                     {prop.tagline}
                   </p>
 
-                  <div className="property-features-strip">
-                    {prop.bedrooms > 0 && (
-                      <div className="feature-block">
-                        <BedDouble size={16} />
+                  <div className="similar-card-features-row">
+                    {prop.bedrooms > 0 ? (
+                      <div className="similar-feature-pill">
+                        <BedDouble size={14} />
                         <span>{prop.bedrooms} Bed</span>
+                      </div>
+                    ) : (
+                      <div className="similar-feature-pill">
+                        <Building size={14} />
+                        <span>Commercial</span>
                       </div>
                     )}
                     {prop.bathrooms > 0 && (
-                      <div className="feature-block">
-                        <Bath size={16} />
+                      <div className="similar-feature-pill">
+                        <Bath size={14} />
                         <span>{prop.bathrooms} Bath</span>
                       </div>
                     )}
-                    <div className="feature-block">
-                      <Maximize2 size={16} />
+                    <div className="similar-feature-pill">
+                      <Maximize2 size={14} />
                       <span>{prop.area}</span>
+                    </div>
+                    <div className="similar-feature-pill">
+                      <HomeIcon size={14} />
+                      <span>{prop.bedrooms > 0 ? '2 Parking' : 'Visitor'}</span>
                     </div>
                   </div>
 
-                  <Link to={`/properties/${prop.id}`} className="btn btn-primary w-full catalog-view-btn">
-                    <span>View Details</span>
-                    <ArrowRight size={16} />
-                  </Link>
+                  <div className="similar-card-footer-meta">
+                    <div className="meta-footer-item">
+                      <span className="meta-label">POSSESSION</span>
+                      <strong className="meta-val">{prop.status}</strong>
+                    </div>
+                    <div className="meta-footer-item">
+                      <span className="meta-label">DEVELOPMENT</span>
+                      <strong className="meta-val">{prop.type}</strong>
+                    </div>
+                  </div>
+
+                  <div className="similar-card-cta-pin">
+                    <Link to={`/properties/${prop.id}`} className="similar-card-view-details-btn">
+                      <span>View Property Details</span>
+                      <ArrowRight size={16} className="arrow-btn-icon" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
@@ -1909,35 +1969,507 @@ const styleTag = (
       color: #fff;
     }
 
-    /* EMI calculator sliders */
-    .calc-price-readout {
+    /* REDESIGNED EMI CALCULATOR CARD */
+    .luxury-emi-calc-card {
+      background-color: var(--color-white);
+      border-radius: var(--border-radius-lg);
+      padding: 2.25rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(30, 30, 30, 0.02);
+      border: 1px solid rgba(200, 164, 93, 0.15);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.3, 1);
+    }
+
+    .luxury-emi-calc-card:hover {
+      box-shadow: 0 30px 60px rgba(200, 164, 93, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .emi-calc-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(200, 164, 93, 0.15);
+    }
+
+    .emi-calc-icon {
+      color: var(--color-secondary);
+      background-color: rgba(200, 164, 93, 0.08);
+      padding: 10px;
+      border-radius: 12px;
+      box-sizing: content-box;
+    }
+
+    .emi-calc-title-box h4 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin: 0;
+    }
+
+    .emi-calc-title-box p {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin: 2px 0 0;
+    }
+
+    .emi-price-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(30, 30, 30, 0.08);
-      font-size: 0.9rem;
+      padding: 12px 16px;
+      background-color: rgba(30, 30, 30, 0.02);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(30, 30, 30, 0.04);
     }
 
-    .calc-price-readout strong {
-      color: var(--color-primary);
+    .emi-price-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+    }
+
+    .emi-price-val {
+      font-size: 1.1rem;
       font-weight: 700;
+      color: var(--color-primary);
     }
 
-    .calc-price-readout.select-amount-row {
-      margin-top: 10px;
-      border-top: 1px dashed rgba(30, 30, 30, 0.08);
-      border-bottom: none;
+    .emi-sliders-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 30px; /* Spacing between sliders: 30px */
+      margin-bottom: 2rem;
     }
 
-    .calc-price-readout.select-amount-row strong {
+    .emi-slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .emi-slider-headers {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .emi-slider-label {
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    .emi-slider-val {
+      font-weight: 700;
       color: var(--color-secondary);
     }
 
-    .micro-calc-result strong {
-      color: var(--color-secondary) !important;
-      font-size: 1.25rem !important;
+    /* Luxury Slider input style override */
+    .emi-luxury-range-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(30, 30, 30, 0.08);
+      outline: none;
+      transition: background-color 0.2s;
+    }
+
+    .emi-luxury-range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--color-secondary);
+      cursor: pointer;
+      border: 2px solid var(--color-white);
+      box-shadow: 0 2px 6px rgba(200, 164, 93, 0.4);
+      transition: transform 0.15s ease;
+    }
+
+    .emi-luxury-range-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background-color: var(--color-accent-bronze);
+    }
+
+    /* Loan Amount Info Card */
+    .emi-loan-info-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      background-color: rgba(200, 164, 93, 0.04);
+      border-radius: 10px;
+      border: 1px dashed rgba(200, 164, 93, 0.25);
+      margin-bottom: 1.5rem;
+    }
+
+    .emi-loan-card-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--color-primary);
+    }
+
+    .emi-loan-card-val {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-secondary);
+    }
+
+    /* Result Card with Gold Accents */
+    .emi-result-highlight-card {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #2f2f2f 100%);
+      color: #fff;
+      padding: 1.5rem 1.75rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(30, 30, 30, 0.15);
+      border-left: 4px solid var(--color-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 1.5rem;
+    }
+
+    .emi-result-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 600;
+    }
+
+    .emi-result-value {
+      font-size: 1.5rem;
       font-weight: 800;
+      color: var(--color-secondary) !important;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    /* Approved Bank Badges */
+    .emi-approved-bank-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .bank-badge-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(30, 30, 30, 0.02);
+      border: 1px solid rgba(30, 30, 30, 0.05);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    .bank-check-icon {
+      color: #10b981;
+    }
+
+    .emi-consultation-btn {
+      background-color: var(--color-secondary) !important;
+      color: var(--color-white) !important;
+      border-color: var(--color-secondary) !important;
+      font-weight: 600 !important;
+      transition: all 0.25s ease !important;
+    }
+
+    .emi-consultation-btn:hover {
+      background-color: var(--color-primary) !important;
+      border-color: var(--color-primary) !important;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* REDESIGNED SIMILAR PREMIUM OFFERINGS */
+    .similar-offerings-luxury-section {
+      background-color: #FAF8F5;
+      padding: 120px 0;
+      border-top: 1px solid rgba(30, 30, 30, 0.05);
+      position: relative;
+    }
+
+    .similar-section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 4.5rem;
+    }
+
+    .similar-title-h3 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .similar-gold-divider {
+      width: 60px;
+      height: 3px;
+      background-color: var(--color-secondary);
+      margin: 0 auto 16px;
+      border-radius: 2px;
+    }
+
+    .similar-subtitle-p {
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    .similar-offerings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      align-items: stretch;
+    }
+
+    .similar-luxury-card {
+      background-color: var(--color-white);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%; /* Equal height */
+      border: 1px solid rgba(30, 30, 30, 0.04);
+      box-shadow: 0 10px 30px rgba(30, 30, 30, 0.02);
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .similar-luxury-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(200, 164, 93, 0.08);
+      border-color: rgba(200, 164, 93, 0.4);
+    }
+
+    /* 16:9 Image Box */
+    .similar-card-image-box {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .similar-zoom-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.3, 1);
+    }
+
+    .similar-luxury-card:hover .similar-zoom-img {
+      transform: scale(1.08);
+    }
+
+    .similar-image-gradient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(30,30,30,0) 50%, rgba(30,30,30,0.5) 100%);
+      pointer-events: none;
+    }
+
+    /* Absolute Badges */
+    .similar-badge-group-left {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 10;
+    }
+
+    .similar-status-badge {
+      background-color: var(--color-secondary);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      width: max-content;
+    }
+
+    .similar-type-badge {
+      background-color: rgba(30, 30, 30, 0.8);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      width: max-content;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .similar-price-tag-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--color-secondary);
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(200,164,93,0.2);
+      z-index: 10;
+    }
+
+    /* Content Body */
+    .similar-card-content-body {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .similar-card-title-h4 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .similar-card-location-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .location-pin-icon {
+      color: var(--color-secondary);
+      flex-shrink: 0;
+    }
+
+    .location-address-text {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    .similar-card-tagline-desc {
+      font-size: 0.85rem;
+      color: var(--color-text);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 2.6rem;
+    }
+
+    /* Features Pills Row */
+    .similar-card-features-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(30, 30, 30, 0.05);
+    }
+
+    .similar-feature-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(30, 30, 30, 0.02);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: var(--color-primary);
+      font-weight: 500;
+    }
+
+    .similar-feature-pill svg {
+      color: var(--color-secondary);
+    }
+
+    /* Footer Meta Specs */
+    .similar-card-footer-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.75rem;
+    }
+
+    .meta-footer-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .meta-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.5px;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .meta-val {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    /* CTA Pinned Button */
+    .similar-card-cta-pin {
+      margin-top: auto;
+    }
+
+    .similar-card-view-details-btn {
+      width: 100%;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.3, 1);
+    }
+
+    .similar-luxury-card:hover .similar-card-view-details-btn {
+      background-color: var(--color-secondary);
+      color: var(--color-white);
+    }
+
+    .similar-card-view-details-btn:hover {
+      box-shadow: 0 4px 12px rgba(200, 164, 93, 0.3);
+    }
+
+    .arrow-btn-icon {
+      transition: transform 0.25s ease;
+    }
+
+    .similar-card-view-details-btn:hover .arrow-btn-icon {
+      transform: translateX(4px);
     }
 
     /* Lightbox Modal fullscreen style */
@@ -2022,6 +2554,10 @@ const styleTag = (
       .summary-h1-name, .price-tag-h2 {
         font-size: 1.75rem;
       }
+      .similar-offerings-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.75rem;
+      }
     }
 
     @media (max-width: 768px) {
@@ -2083,6 +2619,19 @@ const styleTag = (
       }
       .brochure-download-cta-panel .btn {
         width: 100% !important;
+      }
+      .similar-offerings-luxury-section {
+        padding: 60px 0;
+      }
+      .similar-title-h3 {
+        font-size: 1.75rem;
+      }
+      .similar-section-header {
+        margin-bottom: 2.5rem;
+      }
+      .similar-offerings-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
     }
   `}</style>
