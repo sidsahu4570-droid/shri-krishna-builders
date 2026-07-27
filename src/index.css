@@ -2500,6 +2500,11 @@ img {
     width: 38px !important;
     height: 38px !important;
     flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    line-height: 1 !important;
     background-color: var(--color-white) !important;
     border: 2px solid var(--color-secondary) !important;
     color: var(--color-primary) !important;
