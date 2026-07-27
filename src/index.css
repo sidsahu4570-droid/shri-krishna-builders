@@ -2666,10 +2666,24 @@ img {
     box-sizing: border-box !important;
   }
 
-  /* Investment Guide Small Stats Cards stack on mobile */
+  /* Investment Guide Small Stats Cards 1x2 on mobile */
   .stats-row-small {
-    grid-template-columns: 1fr !important;
-    gap: 1.25rem !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .stats-row-small .stat-card-outline {
+    padding: 14px 10px !important;
+  }
+
+  .stats-row-small .stat-card-outline strong {
+    font-size: 1.4rem !important;
+  }
+
+  .stats-row-small .stat-card-outline span {
+    font-size: 0.65rem !important;
+    line-height: 1.25 !important;
+    display: block !important;
   }
 }
 
