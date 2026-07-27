@@ -35,14 +35,29 @@ export default function Navbar({ onOpenVisitModal }) {
     }
   };
 
-  const isHome = location.pathname === '/';
+  const transparentPages = [
+    '/',
+    '/about',
+    '/projects',
+    '/properties',
+    '/services',
+    '/gallery',
+    '/blogs',
+    '/testimonials',
+    '/faqs',
+    '/contact',
+    '/why-choose-us',
+    '/investment-guide',
+    '/careers'
+  ];
+  const isTransparentPage = transparentPages.includes(location.pathname);
 
   return (
     <header
       className={`navbar-fixed ${
         isScrolled 
           ? 'navbar-glass' 
-          : isHome 
+          : isTransparentPage 
             ? 'navbar-transparent' 
             : 'navbar-solid'
       }`}
