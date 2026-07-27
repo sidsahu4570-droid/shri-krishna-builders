@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useProperties } from '../context/PropertyContext';
-import { MapPin, BedDouble, Bath, Maximize2, ArrowRight } from 'lucide-react';
+import { MapPin, BedDouble, Bath, Maximize2, ArrowRight, Heart } from 'lucide-react';
 
 export default function Properties() {
   const { properties } = useProperties();
   const [selectedType, setSelectedType] = useState('All');
   const [selectedStatus, setSelectedStatus] = useState('All');
   const [priceRange, setPriceRange] = useState(70000000); // Max budget limit filter
+  const [favorites, setFavorites] = useState({});
+
+  const toggleFavorite = (id, e) => {
+    e.preventDefault();
+    setFavorites((prev) => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
 
   const propertyTypes = ['All', 'Villa', 'Bungalow', 'Home', 'Commercial', 'Apartment', 'Farm House'];
 
@@ -99,6 +108,13 @@ export default function Properties() {
                 <div key={prop.id} className="card-premium property-catalog-card">
                   <div className="property-card-image">
                     <img src={prop.image} alt={prop.name} className="zoom-hover-target" />
+                    <button
+                      className={`favorite-btn ${favorites[prop.id] ? 'active' : ''}`}
+                      onClick={(e) => toggleFavorite(prop.id, e)}
+                      aria-label="Add to favorites"
+                    >
+                      <Heart size={16} fill={favorites[prop.id] ? 'var(--color-secondary)' : 'none'} />
+                    </button>
                     <span className="status-label-badge">{prop.status}</span>
                     <span className="price-tag-badge">{prop.price}</span>
                   </div>
@@ -385,6 +401,36 @@ const styleTag = (
       font-size: 1.5rem;
       color: var(--color-primary);
       margin-bottom: 0.5rem;
+    }
+
+    .favorite-btn {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-primary);
+      transition: var(--transition-fast);
+      z-index: 5;
+    }
+
+    .favorite-btn:hover {
+      transform: scale(1.1);
+      background-color: var(--color-white);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .favorite-btn.active {
+      color: var(--color-secondary);
     }
 
     @media (max-width: 768px) {

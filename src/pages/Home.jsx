@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useProperties } from '../context/PropertyContext';
 import Calculator from '../components/Calculator';
 import { 
   Building, Calendar, ShieldCheck, Landmark, Compass, Award, 
   MapPin, Play, UserCheck, Star, ChevronLeft, ChevronRight, 
-  ArrowRight, Phone, Clock, FileText, CheckCircle2 
+  ArrowRight, Phone, Clock, FileText, CheckCircle2, Heart 
 } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -17,15 +17,26 @@ export default function Home({ onOpenVisitModal }) {
   const { properties, projects, testimonials, faqs, blogs } = useProperties();
   const navigate = useNavigate();
   
-  // States
+  // Interactive States
   const [activeFaq, setActiveFaq] = useState(null);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [videoOpen, setVideoOpen] = useState(false);
   const [activeMapPin, setActiveMapPin] = useState(null);
+  const [currentProject, setCurrentProject] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   // References for GSAP
   const containerRef = useRef(null);
   const heroTextRef = useRef(null);
+
+  // Parallax mouse event handler
+  const handleMouseMove = (e) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    const x = (clientX / innerWidth - 0.5) * 30; // Max offset 30px
+    const y = (clientY / innerHeight - 0.5) * 30;
+    setMousePos({ x, y });
+  };
 
   // Testimonial Navigation
   const prevTestimonial = () => {
@@ -35,13 +46,21 @@ export default function Home({ onOpenVisitModal }) {
     setActiveTestimonial((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
   };
 
-  // GSAP Animations
+  // Projects Carousel Slider
+  const nextProject = () => {
+    setCurrentProject((prev) => (prev + 1 >= projects.length - 2 ? 0 : prev + 1));
+  };
+  const prevProject = () => {
+    setCurrentProject((prev) => (prev === 0 ? projects.length - 3 : prev - 1));
+  };
+
+  // GSAP Entrance Scroll triggers
   useGSAP(() => {
     // Hero Text entrance animation
     const heroTl = gsap.timeline();
     heroTl.fromTo('.hero-reveal', 
       { y: 50, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 1.2, stagger: 0.2, ease: 'power4.out' }
+      { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: 'power4.out' }
     );
     heroTl.fromTo('.hero-stats-fade', 
       { opacity: 0, scale: 0.9 }, 
@@ -49,32 +68,22 @@ export default function Home({ onOpenVisitModal }) {
       '-=0.4'
     );
 
-    // Scroll trigger reveals
+    // Scroll reveals
     const sections = gsap.utils.toArray('.reveal-on-scroll');
     sections.forEach((sec) => {
       gsap.fromTo(sec, 
-        { y: 60, opacity: 0 },
+        { y: 50, opacity: 0 },
         {
           y: 0, 
           opacity: 1, 
           duration: 1, 
           scrollTrigger: {
             trigger: sec,
-            start: 'top 80%',
+            start: 'top 85%',
             toggleActions: 'play none none none'
           }
         }
       );
-    });
-
-    // Image Zoom effect on hover
-    gsap.utils.toArray('.zoom-hover-target').forEach((img) => {
-      img.addEventListener('mouseenter', () => {
-        gsap.to(img, { scale: 1.08, duration: 0.6, ease: 'power2.out' });
-      });
-      img.addEventListener('mouseleave', () => {
-        gsap.to(img, { scale: 1, duration: 0.6, ease: 'power2.out' });
-      });
     });
 
   }, { scope: containerRef });
@@ -91,8 +100,8 @@ export default function Home({ onOpenVisitModal }) {
     <div ref={containerRef} className="home-page-container">
       
       {/* 1. HERO SECTION */}
-      <section className="hero-section">
-        {/* Slow zooming luxury background image */}
+      <section className="hero-section" onMouseMove={handleMouseMove}>
+        {/* Cinematic zoom background image */}
         <div className="hero-bg-zoom"></div>
         <div className="hero-overlay"></div>
 
@@ -111,8 +120,11 @@ export default function Home({ onOpenVisitModal }) {
             </div>
           </div>
 
-          {/* Floating statistics cards */}
-          <div className="hero-stats-grid hero-stats-fade">
+          {/* Floating statistics cards with Mouse Parallax */}
+          <div className="hero-stats-grid hero-stats-fade" style={{
+            transform: `translate3d(${mousePos.x * 0.4}px, ${mousePos.y * 0.4}px, 0)`,
+            transition: 'transform 0.2s ease-out'
+          }}>
             <div className="hero-stat-card glass-panel">
               <span className="stat-number">15+</span>
               <span className="stat-label">Years Experience</span>
@@ -126,8 +138,8 @@ export default function Home({ onOpenVisitModal }) {
               <span className="stat-label">Happy Families</span>
             </div>
             <div className="hero-stat-card glass-panel">
-              <span className="stat-number">50+</span>
-              <span className="stat-label">Luxury Villas</span>
+              <span className="stat-number">1.5M+</span>
+              <span className="stat-label">Sq Ft Developed</span>
             </div>
           </div>
         </div>
@@ -185,10 +197,10 @@ export default function Home({ onOpenVisitModal }) {
           <div className="about-text-content reveal-on-scroll">
             <span className="subtitle-premium">Legacy of Elegance</span>
             <h2 className="title-luxury">Building Trust. Creating Landmarks.</h2>
-            <p style={{ marginBottom: '1.5rem' }}>
+            <p style={{ marginBottom: '1.5rem', lineHeight: '1.8' }}>
               For over a decade and a half, Shri Krishna Builder's & Developers has stood at the absolute forefront of Indore's luxury real estate development. We do not just lay bricks; we design landmarks that reflect status, elegance, and architectural innovation.
             </p>
-            <p style={{ marginBottom: '2rem' }}>
+            <p style={{ marginBottom: '2rem', lineHeight: '1.8' }}>
               We specialize in custom architectural designs, earthquake-resistant high-rise residences, fully integrated smart townships, and luxury villas. Every home we create represents a perfect fusion of aesthetics and durable engineering.
             </p>
             <div className="about-values-bullet-grid">
@@ -203,21 +215,21 @@ export default function Home({ onOpenVisitModal }) {
                 <CheckCircle2 className="bullet-icon" />
                 <div>
                   <strong>On-Time Delivery Guarantee</strong>
-                  <p>Commitment backed by legal escrow registry clauses.</p>
+                  <p>Commitment backed by legal escrow registry clauses RERA compliant.</p>
                 </div>
               </div>
             </div>
-            <Link to="/about" className="btn btn-primary" style={{ marginTop: '1.5rem' }}>
+            <Link to="/about" className="btn btn-primary" style={{ marginTop: '2rem' }}>
               Discover Our History
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 4. FEATURED PROJECTS SHOWCASE */}
+      {/* 4. FEATURED PROJECTS SHOWCASE CAROUSEL */}
       <section className="section section-dark featured-showcase-section">
         <div className="container">
-          <div className="showcase-header reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <div className="showcase-header reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <span className="subtitle-premium">Exclusive Landmarks</span>
             <h2 className="title-luxury title-luxury-center" style={{ color: 'var(--color-white)' }}>Our Featured Projects</h2>
             <p style={{ maxWidth: '600px', margin: '0 auto' }}>
@@ -225,36 +237,45 @@ export default function Home({ onOpenVisitModal }) {
             </p>
           </div>
 
-          <div className="grid-3">
-            {projects.slice(0, 3).map((proj) => (
-              <div key={proj.id} className="card-premium card-dark-wrapper reveal-on-scroll">
-                <div className="card-image-box">
-                  <img src={proj.image} alt={proj.name} className="zoom-hover-target" />
-                  <span className="card-status-badge">{proj.status}</span>
-                </div>
-                <div className="card-body-content dark-card-body">
-                  <span className="card-meta-type">{proj.type}</span>
-                  <h3 className="card-project-title">{proj.name}</h3>
-                  <div className="card-location-row">
-                    <MapPin size={16} className="loc-icon" />
-                    <span>{proj.location}</span>
+          {/* Interactive slider track wrapper */}
+          <div className="slider-wrapper reveal-on-scroll">
+            <div className="slider-track" style={{ transform: `translate3d(calc(-${currentProject} * var(--slider-width)), 0, 0)` }}>
+              {projects.map((proj) => (
+                <div key={proj.id} className="card-premium card-dark-wrapper" style={{ minWidth: 'calc(var(--slider-width) - 1.5rem)', margin: '0 0.75rem' }}>
+                  <div className="card-image-box">
+                    <img src={proj.image} alt={proj.name} className="zoom-hover-target" />
+                    <span className="card-status-badge">{proj.status}</span>
                   </div>
-                  <p className="card-project-desc">{proj.description}</p>
-                  <div className="card-details-row">
-                    <span><strong>Size:</strong> {proj.size}</span>
-                    <span><strong>Volume:</strong> {proj.units}</span>
+                  <div className="card-body-content dark-card-body">
+                    <span className="card-meta-type">{proj.type}</span>
+                    <h3 className="card-project-title">{proj.name}</h3>
+                    <div className="card-location-row">
+                      <MapPin size={16} className="loc-icon" />
+                      <span>{proj.location}</span>
+                    </div>
+                    <p className="card-project-desc">{proj.description}</p>
+                    <div className="card-details-row">
+                      <span><strong>Size:</strong> {proj.size}</span>
+                      <span><strong>Volume:</strong> {proj.units}</span>
+                    </div>
+                    <Link to="/projects" className="btn btn-outline btn-card-arrow">
+                      <span>Explore Project Details</span>
+                      <ArrowRight size={16} />
+                    </Link>
                   </div>
-                  <Link to="/projects" className="btn btn-outline btn-card-arrow">
-                    <span>Explore Project Details</span>
-                    <ArrowRight size={16} />
-                  </Link>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '4rem' }}>
-            <Link to="/projects" className="btn btn-secondary">View All Active Projects</Link>
+          {/* Slider Arrow Controls */}
+          <div className="slider-control-bar reveal-on-scroll">
+            <button onClick={prevProject} className="slider-nav-arrow" aria-label="Previous project">
+              <ChevronLeft size={24} />
+            </button>
+            <button onClick={nextProject} className="slider-nav-arrow" aria-label="Next project">
+              <ChevronRight size={24} />
+            </button>
           </div>
         </div>
       </section>
@@ -271,23 +292,18 @@ export default function Home({ onOpenVisitModal }) {
           </div>
 
           <div className="grid-2" style={{ alignItems: 'center' }}>
-            {/* Elegant SVG Mock Map of Indore */}
             <div className="map-illustration-box reveal-on-scroll">
               <svg className="indore-svg-map" viewBox="0 0 500 400" width="100%" height="100%">
-                {/* Simulated Indore Outline Paths */}
                 <path d="M50 150 C 120 80, 220 50, 320 80 C 400 110, 450 190, 420 280 C 390 350, 290 380, 200 370 C 100 350, 30 250, 50 150 Z" fill="#F1ECE4" stroke="#E2D6C0" strokeWidth="3" />
                 <path d="M200 150 C 230 130, 280 130, 300 160 C 310 180, 290 220, 260 230 C 220 240, 180 200, 200 150 Z" fill="#EAE2D3" stroke="#DFD7C7" strokeWidth="2" opacity="0.6" />
                 
-                {/* Major Connecting Roads */}
                 <line x1="50" y1="150" x2="450" y2="280" stroke="#DFD7C7" strokeWidth="3" strokeDasharray="5,5" />
                 <line x1="250" y1="50" x2="250" y2="370" stroke="#DFD7C7" strokeWidth="3" strokeDasharray="5,5" />
 
-                {/* Map Grid Labels */}
                 <text x="260" y="70" fill="#a49984" fontSize="10" letterSpacing="1">MR-12 ROAD</text>
                 <text x="70" y="220" fill="#a49984" fontSize="10" letterSpacing="1" transform="rotate(-30 70 220)">SUPER CORRIDOR</text>
                 <text x="320" y="320" fill="#a49984" fontSize="10" letterSpacing="1">BYPASS CORRIDOR</text>
 
-                {/* Pulsing Pins */}
                 {mapPins.map((pin) => (
                   <g 
                     key={pin.id} 
@@ -304,7 +320,6 @@ export default function Home({ onOpenVisitModal }) {
                 ))}
               </svg>
 
-              {/* Dynamic tooltip box inside container */}
               {activeMapPin && (
                 <div 
                   className="map-tooltip-box glass-panel"
@@ -385,7 +400,88 @@ export default function Home({ onOpenVisitModal }) {
         </div>
       </section>
 
-      {/* 7. CONSTRUCTION PROCESS (Horizontal Timeline) */}
+      {/* 6.5. LUXURY LIFESTYLE SECTION */}
+      <section className="section lifestyle-section" style={{ backgroundColor: '#FAF8F5' }}>
+        <div className="container">
+          <div className="showcase-header reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <span className="subtitle-premium">EXQUISITE LIVING</span>
+            <h2 className="title-luxury title-luxury-center">The Luxury Lifestyle Experience</h2>
+            <p style={{ maxWidth: '600px', margin: '0 auto' }}>
+              We build residential sanctuaries designed around premium amenities, green ecological parks, and state-of-the-art social infrastructures in Indore.
+            </p>
+          </div>
+
+          <div className="grid-3 reveal-on-scroll">
+            {/* Amenity 1 */}
+            <div className="card-premium lifestyle-card">
+              <div className="lifestyle-image-box">
+                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80" alt="Private Clubhouse" />
+              </div>
+              <div className="lifestyle-body">
+                <h3>Private Elite Clubhouse</h3>
+                <p>An exclusive 15,000 Sq.Ft. wellness lounge featuring high-end gym equipment, private event halls, and gourmet business cafés.</p>
+              </div>
+            </div>
+
+            {/* Amenity 2 */}
+            <div className="card-premium lifestyle-card">
+              <div className="lifestyle-image-box">
+                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80" alt="Infinity Pool" />
+              </div>
+              <div className="lifestyle-body">
+                <h3>Infinity Swimming Pool</h3>
+                <p>Heated lap pool with luxury timber decks, children's wading splash areas, and standard cabanas set within green arrays.</p>
+              </div>
+            </div>
+
+            {/* Amenity 3 */}
+            <div className="card-premium lifestyle-card">
+              <div className="lifestyle-image-box">
+                <img src="https://images.unsplash.com/photo-1524813686514-a57563d77d61?auto=format&fit=crop&w=800&q=80" alt="Landscaped Gardens" />
+              </div>
+              <div className="lifestyle-body">
+                <h3>Landscaped Botanic Gardens</h3>
+                <p>Manicured avenues, themed floral gardens, and walking pathways designed by botanists for pure serene air quality.</p>
+              </div>
+            </div>
+
+            {/* Amenity 4 */}
+            <div className="card-premium lifestyle-card">
+              <div className="lifestyle-image-box">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80" alt="Smart Home living" />
+              </div>
+              <div className="lifestyle-body">
+                <h3>Smart Touchscreen Living</h3>
+                <p>Automated lighting, biometric locks, video doorbell arrays, and remote phone app control systems built natively.</p>
+              </div>
+            </div>
+
+            {/* Amenity 5 */}
+            <div className="card-premium lifestyle-card">
+              <div className="lifestyle-image-box">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80" alt="Children's play garden" />
+              </div>
+              <div className="lifestyle-body">
+                <h3>Children's Recreational Park</h3>
+                <p>Equipped play parks with rubber flooring, standard swings, climbing domes, and absolute secure perimeter protections.</p>
+              </div>
+            </div>
+
+            {/* Amenity 6 */}
+            <div className="card-premium lifestyle-card">
+              <div className="lifestyle-image-box">
+                <img src="https://images.unsplash.com/photo-1506974210756-8e1b8985d348?auto=format&fit=crop&w=800&q=80" alt="40ft wide internal concrete roads" />
+              </div>
+              <div className="lifestyle-body">
+                <h3>40ft Wide Internal Avenues</h3>
+                <p>Broad, tree-lined asphalt avenues with structural underground utilities (electricity, fiber-optics, water drains).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. CONSTRUCTION PROCESS (7-Node Horizontal Timeline) */}
       <section className="section construction-process-section">
         <div className="container">
           <div className="showcase-header reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '5rem' }}>
@@ -403,8 +499,8 @@ export default function Home({ onOpenVisitModal }) {
             <div className="timeline-node">
               <div className="node-circle">1</div>
               <div className="node-content-box">
-                <h4>Planning & Legal</h4>
-                <p>Acquiring clean land titles and registering with MP-RERA guidelines.</p>
+                <h4>Planning</h4>
+                <p>Zoning checks, legal title clearances, and MP-RERA submissions.</p>
               </div>
             </div>
 
@@ -412,8 +508,8 @@ export default function Home({ onOpenVisitModal }) {
             <div className="timeline-node">
               <div className="node-circle">2</div>
               <div className="node-content-box">
-                <h4>Architecture & Design</h4>
-                <p>Drafting 3D structures, Vaastu checks, and floor elevation blueprints.</p>
+                <h4>Architecture</h4>
+                <p>Blueprints, Vaastu alignment, structures, and detailed 3D elevations.</p>
               </div>
             </div>
 
@@ -421,8 +517,8 @@ export default function Home({ onOpenVisitModal }) {
             <div className="timeline-node">
               <div className="node-circle">3</div>
               <div className="node-content-box">
-                <h4>Government Approvals</h4>
-                <p>Acquiring municipal certificates and corporate home loan pre-approvals.</p>
+                <h4>Approval</h4>
+                <p>Obtaining corporation NOCs, builder clearances, and loan credentials.</p>
               </div>
             </div>
 
@@ -430,8 +526,8 @@ export default function Home({ onOpenVisitModal }) {
             <div className="timeline-node">
               <div className="node-circle">4</div>
               <div className="node-content-box">
-                <h4>Core Construction</h4>
-                <p>Executing RCC concrete framing and laying high-strength TMT steel columns.</p>
+                <h4>Construction</h4>
+                <p>RCC framing concrete pours, structural columns, blockwork foundations.</p>
               </div>
             </div>
 
@@ -439,8 +535,8 @@ export default function Home({ onOpenVisitModal }) {
             <div className="timeline-node">
               <div className="node-circle">5</div>
               <div className="node-content-box">
-                <h4>Luxury Finishes</h4>
-                <p>Installing imported Italian marble, modular kitchens, and smart wiring.</p>
+                <h4>Interior</h4>
+                <p>Premium wiring setups, Italian marble floor laying, modular adjustments.</p>
               </div>
             </div>
 
@@ -448,8 +544,17 @@ export default function Home({ onOpenVisitModal }) {
             <div className="timeline-node">
               <div className="node-circle">6</div>
               <div className="node-content-box">
+                <h4>Finishing</h4>
+                <p>Plumbing inspections, sanitary fittings (Kohler), final detailing & paints.</p>
+              </div>
+            </div>
+
+            {/* Step 7 */}
+            <div className="timeline-node">
+              <div className="node-circle">7</div>
+              <div className="node-content-box">
                 <h4>Handover</h4>
-                <p>Final quality inspection, registry paperwork, and key handover celebration.</p>
+                <p>Registry validation, key handovers, and housewarming support.</p>
               </div>
             </div>
           </div>
@@ -595,858 +700,6 @@ export default function Home({ onOpenVisitModal }) {
           </div>
         </div>
       )}
-
-      {/* Embedded CSS Specific for Home Page */}
-      <style>{`
-        /* Hero Section Styling */
-        .hero-section {
-          height: 100vh;
-          width: 100%;
-          position: relative;
-          display: flex;
-          align-items: center;
-          color: var(--color-white);
-          overflow: hidden;
-        }
-
-        .hero-bg-zoom {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-image: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1920&q=80');
-          background-size: cover;
-          background-position: center;
-          animation: ken-burns-zoom 25s infinite alternate ease-in-out;
-          z-index: 1;
-        }
-
-        @keyframes ken-burns-zoom {
-          0% { transform: scale(1); }
-          100% { transform: scale(1.15); }
-        }
-
-        .hero-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, rgba(15, 76, 58, 0.85) 0%, rgba(27, 27, 27, 0.7) 100%);
-          z-index: 2;
-        }
-
-        .hero-content {
-          position: relative;
-          z-index: 3;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 70vh;
-          margin-top: 80px;
-        }
-
-        .hero-text-container {
-          max-width: 750px;
-        }
-
-        .hero-heading {
-          font-size: 3.85rem;
-          color: var(--color-white);
-          line-height: 1.15;
-          margin-bottom: 1.5rem;
-        }
-
-        .hero-subheading {
-          font-size: 1.15rem;
-          color: rgba(255, 255, 255, 0.85);
-          margin-bottom: 2rem;
-          font-weight: 300;
-          max-width: 600px;
-        }
-
-        .hero-buttons {
-          display: flex;
-          gap: 1.25rem;
-        }
-
-        /* Floating statistics card list */
-        .hero-stats-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1.5rem;
-          margin-top: 3rem;
-        }
-
-        .hero-stat-card {
-          padding: 1.5rem;
-          border-radius: var(--border-radius-md);
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-          border-color: rgba(255,255,255,0.15);
-        }
-
-        .stat-number {
-          font-family: var(--font-headings);
-          font-size: 2.25rem;
-          color: var(--color-secondary);
-          font-weight: 700;
-        }
-
-        .stat-label {
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          color: rgba(255,255,255,0.8);
-          font-weight: 500;
-        }
-
-        /* Mouse Scroll indicator */
-        .mouse-scroll-indicator {
-          position: absolute;
-          bottom: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 4;
-          width: 30px;
-          height: 50px;
-          border: 2px solid rgba(255, 255, 255, 0.4);
-          border-radius: 15px;
-          display: flex;
-          justify-content: center;
-          padding-top: 8px;
-        }
-
-        .mouse-wheel {
-          width: 6px;
-          height: 10px;
-          background-color: var(--color-secondary);
-          border-radius: 3px;
-          animation: wheel-down 1.5s infinite;
-        }
-
-        @keyframes wheel-down {
-          0% { opacity: 0; transform: translateY(0); }
-          50% { opacity: 1; }
-          100% { opacity: 0; transform: translateY(12px); }
-        }
-
-        /* Trust Strip Styles */
-        .trust-strip-section {
-          background-color: var(--color-primary);
-          color: var(--color-white);
-          padding: 24px 0;
-          border-bottom: 2px solid var(--color-secondary);
-        }
-
-        .trust-container {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 1.5rem;
-        }
-
-        .trust-title {
-          font-size: 0.75rem;
-          letter-spacing: 2px;
-          font-weight: 600;
-          color: var(--color-secondary);
-        }
-
-        .trust-logos {
-          display: flex;
-          justify-content: space-between;
-          flex-grow: 1;
-          flex-wrap: wrap;
-          gap: 2rem;
-        }
-
-        .trust-logo-item {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.8rem;
-          letter-spacing: 1px;
-          font-weight: 500;
-        }
-
-        .trust-icon {
-          color: var(--color-secondary);
-          width: 18px;
-          height: 18px;
-        }
-
-        /* About Showcase Visual */
-        .about-visual {
-          position: relative;
-        }
-
-        .about-premium-img {
-          width: 100%;
-          height: 480px;
-          object-fit: cover;
-          border-radius: var(--border-radius-lg);
-          border: 1px solid rgba(15, 76, 58, 0.1);
-        }
-
-        .about-floating-experience-badge {
-          position: absolute;
-          bottom: 30px;
-          left: 30px;
-          padding: 1.5rem;
-          border-radius: var(--border-radius-md);
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          border-color: rgba(255,255,255,0.3);
-          max-width: 250px;
-        }
-
-        .badge-years {
-          font-family: var(--font-headings);
-          font-size: 2.5rem;
-          color: var(--color-primary);
-          font-weight: 700;
-        }
-
-        .badge-text {
-          font-size: 0.75rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .about-values-bullet-grid {
-          display: flex;
-          flex-direction: column;
-          gap: 1.25rem;
-        }
-
-        .value-bullet {
-          display: flex;
-          gap: 12px;
-        }
-
-        .bullet-icon {
-          color: var(--color-secondary);
-          flex-shrink: 0;
-        }
-
-        .value-bullet strong {
-          font-size: 0.95rem;
-          color: var(--color-dark);
-        }
-
-        /* Dark project cards styling */
-        .card-dark-wrapper {
-          background-color: #252525;
-          border-color: rgba(255,255,255,0.04);
-        }
-
-        .dark-card-body {
-          padding: 1.5rem;
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .card-image-box {
-          position: relative;
-          overflow: hidden;
-          height: 240px;
-        }
-
-        .card-image-box img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .card-status-badge {
-          position: absolute;
-          top: 15px;
-          right: 15px;
-          background-color: var(--color-secondary);
-          color: var(--color-white);
-          font-size: 0.7rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          padding: 4px 10px;
-          border-radius: 3px;
-          letter-spacing: 1px;
-        }
-
-        .card-meta-type {
-          font-size: 0.7rem;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          color: var(--color-secondary);
-          font-weight: 600;
-        }
-
-        .card-project-title {
-          font-size: 1.35rem;
-          color: var(--color-white);
-        }
-
-        .card-location-row {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.8rem;
-          color: #bbb;
-        }
-
-        .loc-icon {
-          color: var(--color-secondary);
-        }
-
-        .card-project-desc {
-          font-size: 0.85rem;
-          color: #aaa;
-          margin-bottom: 8px;
-        }
-
-        .card-details-row {
-          display: flex;
-          justify-content: space-between;
-          border-top: 1px solid rgba(255,255,255,0.06);
-          padding-top: 10px;
-          font-size: 0.8rem;
-          color: #ccc;
-          margin-bottom: 12px;
-        }
-
-        .btn-card-arrow {
-          display: flex;
-          justify-content: space-between;
-          padding: 10px 18px;
-          font-size: 0.8rem;
-        }
-
-        /* Map illustration styles */
-        .map-illustration-box {
-          position: relative;
-          background-color: #f1ede6;
-          border-radius: var(--border-radius-lg);
-          border: 2px dashed rgba(200, 155, 60, 0.3);
-          box-shadow: var(--shadow-md);
-          overflow: visible;
-          padding: 1rem;
-        }
-
-        .indore-svg-map {
-          display: block;
-          max-height: 400px;
-        }
-
-        .pin-pulse {
-          animation: wave 2s infinite ease-out;
-          transform-origin: center;
-        }
-
-        @keyframes wave {
-          0% { transform: scale(0.6); opacity: 0.8; }
-          100% { transform: scale(2.2); opacity: 0; }
-        }
-
-        .map-tooltip-box {
-          width: 220px;
-          padding: 1rem;
-          border-radius: var(--border-radius-sm);
-          border-color: rgba(200, 155, 60, 0.3);
-          text-align: center;
-        }
-
-        .tooltip-type {
-          font-size: 0.65rem;
-          text-transform: uppercase;
-          letter-spacing: 1.5px;
-          color: var(--color-secondary);
-          font-weight: 600;
-          display: block;
-        }
-
-        .tooltip-title {
-          font-size: 0.95rem;
-          margin: 4px 0 8px;
-          color: var(--color-primary);
-        }
-
-        .tooltip-cta {
-          font-size: 0.7rem;
-          font-weight: 500;
-          color: var(--color-secondary);
-          border-bottom: 1px solid var(--color-secondary);
-        }
-
-        .legend-items-box {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .legend-map-row {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          padding: 12px 18px;
-          background-color: var(--color-white);
-          border: 1px solid rgba(15, 76, 58, 0.03);
-          border-radius: var(--border-radius-sm);
-          cursor: pointer;
-          transition: var(--transition-fast);
-        }
-
-        .legend-map-row:hover,
-        .legend-map-row.active {
-          border-color: var(--color-secondary);
-          background-color: rgba(200, 155, 60, 0.05);
-          transform: translateX(5px);
-        }
-
-        .legend-pin-icon {
-          color: var(--color-secondary);
-        }
-
-        .legend-pin-details {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .legend-pin-details strong {
-          font-size: 0.9rem;
-          color: var(--color-dark);
-        }
-
-        .legend-pin-details span {
-          font-size: 0.75rem;
-          color: #777;
-        }
-
-        /* Virtual Tour card layout */
-        .tour-banner-wrapper {
-          display: grid;
-          grid-template-columns: 1.2fr 1fr;
-          overflow: hidden;
-          border-radius: var(--border-radius-lg);
-        }
-
-        .tour-visual-box {
-          position: relative;
-          height: 380px;
-        }
-
-        .tour-visual-box img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .play-tour-btn {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 70px;
-          height: 70px;
-          border-radius: 50%;
-          background-color: var(--color-white);
-          border: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: var(--transition-smooth);
-          box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .play-tour-btn:hover {
-          transform: translate(-50%, -50%) scale(1.1);
-          background-color: var(--color-secondary);
-        }
-
-        .tour-text-box {
-          padding: 3rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          gap: 15px;
-        }
-
-        .tour-title {
-          font-size: 1.75rem;
-        }
-
-        .tour-features-bullets {
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
-          margin-bottom: 1rem;
-        }
-
-        .tour-feature-tag {
-          font-size: 0.7rem;
-          font-weight: 500;
-          text-transform: uppercase;
-          background-color: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.1);
-          padding: 4px 10px;
-          border-radius: 3px;
-          color: var(--color-accent);
-          letter-spacing: 0.5px;
-        }
-
-        /* Construction Process timeline horizontal */
-        .timeline-horizontal {
-          display: grid;
-          grid-template-columns: repeat(6, 1fr);
-          gap: 1.5rem;
-          position: relative;
-          padding-top: 40px;
-        }
-
-        .timeline-line {
-          position: absolute;
-          top: 57px;
-          left: 5%;
-          right: 5%;
-          height: 2px;
-          background-color: rgba(200, 155, 60, 0.3);
-          z-index: 1;
-        }
-
-        .timeline-node {
-          position: relative;
-          z-index: 2;
-          text-align: center;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 1.25rem;
-        }
-
-        .node-circle {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background-color: var(--color-white);
-          border: 2px solid var(--color-secondary);
-          color: var(--color-primary);
-          font-family: var(--font-headings);
-          font-weight: 700;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: var(--transition-smooth);
-        }
-
-        .timeline-node:hover .node-circle {
-          background-color: var(--color-secondary);
-          color: var(--color-white);
-          transform: scale(1.15);
-        }
-
-        .node-content-box h4 {
-          font-size: 0.95rem;
-          margin-bottom: 6px;
-          color: var(--color-dark);
-        }
-
-        .node-content-box p {
-          font-size: 0.75rem;
-          line-height: 1.4;
-          color: #666;
-        }
-
-        /* Testimonials layout */
-        .testimonials-box-wrapper {
-          max-width: 800px;
-          margin: 0 auto;
-          text-align: center;
-        }
-
-        .testimonial-slider-card {
-          padding: 3rem;
-          border-radius: var(--border-radius-lg);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 1.5rem;
-          margin-top: 2rem;
-        }
-
-        .stars-row {
-          display: flex;
-          gap: 4px;
-        }
-
-        .testimonial-quote {
-          font-family: var(--font-headings);
-          font-size: 1.25rem;
-          color: #e5e5e5;
-          font-style: italic;
-          line-height: 1.6;
-        }
-
-        .testimonial-profile {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          margin-top: 1rem;
-        }
-
-        .profile-avatar {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 2px solid var(--color-secondary);
-        }
-
-        .profile-details {
-          text-align: left;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .profile-name {
-          font-weight: 600;
-          font-size: 0.9rem;
-          color: var(--color-white);
-        }
-
-        .profile-role {
-          font-size: 0.75rem;
-          color: var(--color-secondary);
-        }
-
-        .slider-navigation-btns {
-          display: flex;
-          justify-content: center;
-          gap: 1.5rem;
-          margin-top: 2rem;
-        }
-
-        .slider-btn {
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          background-color: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: var(--color-white);
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: var(--transition-fast);
-        }
-
-        .slider-btn:hover {
-          background-color: var(--color-secondary);
-          border-color: var(--color-secondary);
-        }
-
-        /* FAQ accordion styles */
-        .faq-intro-text {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-
-        .contact-small-card {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          padding: 1.25rem;
-          border-radius: var(--border-radius-md);
-          max-width: 320px;
-        }
-
-        .phone-accent-icon {
-          color: var(--color-secondary);
-        }
-
-        .contact-small-card a {
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: var(--color-primary);
-          display: block;
-        }
-
-        .faq-accordions-box {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .faq-accordion-item {
-          background-color: var(--color-white);
-          border: 1px solid rgba(15, 76, 58, 0.05);
-          border-radius: var(--border-radius-sm);
-          overflow: hidden;
-          transition: var(--transition-smooth);
-        }
-
-        .faq-question-btn {
-          width: 100%;
-          padding: 18px 24px;
-          background: none;
-          border: none;
-          text-align: left;
-          font-family: var(--font-body);
-          font-size: 0.95rem;
-          font-weight: 600;
-          color: var(--color-dark);
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          cursor: pointer;
-        }
-
-        .faq-toggle-icon {
-          font-size: 1.2rem;
-          color: var(--color-secondary);
-        }
-
-        .faq-answer-panel {
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-          padding: 0 24px;
-        }
-
-        .faq-accordion-item.open {
-          border-color: var(--color-secondary);
-          box-shadow: var(--shadow-sm);
-        }
-
-        .faq-accordion-item.open .faq-answer-panel {
-          max-height: 200px;
-          padding-bottom: 20px;
-        }
-
-        .faq-answer-panel p {
-          font-size: 0.85rem;
-          color: #555;
-          line-height: 1.5;
-        }
-
-        /* Banner CTA site visit */
-        .banner-flex-wrapper {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 3rem 4rem;
-          border-radius: var(--border-radius-lg);
-          border-color: rgba(200, 155, 60, 0.2);
-          background-color: var(--color-white);
-        }
-
-        .cta-left-text {
-          max-width: 60%;
-        }
-
-        .cta-left-text h3 {
-          font-size: 1.75rem;
-          margin-bottom: 0.5rem;
-          color: var(--color-primary);
-        }
-
-        .cta-left-text p {
-          font-size: 0.9rem;
-        }
-
-        /* Video Modal Overlays */
-        .video-modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          background-color: rgba(0,0,0,0.85);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 2100;
-        }
-
-        .video-modal-content {
-          width: 90%;
-          max-width: 800px;
-          position: relative;
-        }
-
-        .video-modal-close {
-          position: absolute;
-          top: -40px;
-          right: 0;
-          background: none;
-          border: none;
-          color: var(--color-white);
-          font-size: 32px;
-          cursor: pointer;
-        }
-
-        @media (max-width: 1024px) {
-          .hero-heading {
-            font-size: 2.75rem;
-          }
-          .hero-stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .tour-banner-wrapper {
-            grid-template-columns: 1fr;
-          }
-          .tour-visual-box {
-            height: 280px;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .hero-heading {
-            font-size: 2.2rem;
-          }
-          .hero-stats-grid {
-            grid-template-columns: 1fr;
-            margin-top: 1.5rem;
-          }
-          .hero-content {
-            height: 80vh;
-          }
-          .timeline-horizontal {
-            grid-template-columns: 1fr;
-            gap: 2.5rem;
-          }
-          .timeline-line {
-            display: none;
-          }
-          .timeline-node {
-            align-items: flex-start;
-            text-align: left;
-            flex-direction: row;
-            gap: 15px;
-          }
-          .node-circle {
-            flex-shrink: 0;
-          }
-          .banner-flex-wrapper {
-            flex-direction: column;
-            padding: 2rem;
-            gap: 1.5rem;
-            text-align: center;
-          }
-          .cta-left-text {
-            max-width: 100%;
-          }
-          .map-illustration-box {
-            display: none;
-          }
-        }
-      `}</style>
     </div>
   );
 }

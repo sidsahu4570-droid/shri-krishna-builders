@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { PropertyProvider } from './context/PropertyContext';
+import { Building } from 'lucide-react';
 
 // Components
 import Navbar from './components/Navbar';
@@ -26,6 +27,14 @@ import NotFound from './pages/NotFound';
 
 function App() {
   const [showVisitModal, setShowVisitModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const toggleVisitModal = () => {
     setShowVisitModal((prev) => !prev);
@@ -33,6 +42,15 @@ function App() {
 
   return (
     <PropertyProvider>
+      {/* Luxury Fullscreen Preloader */}
+      <div className={`luxury-preloader ${loading ? '' : 'preloader-hidden'}`}>
+        <div className="preloader-logo-wrap">
+          <Building className="preloader-icon" size={60} />
+          <h2>SHRI KRISHNA</h2>
+          <span>BUILDERS & DEVELOPERS</span>
+        </div>
+      </div>
+
       <Router>
         <div className="app-layout">
           {/* Navbar with modal click launcher */}
