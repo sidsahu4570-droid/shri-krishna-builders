@@ -48,6 +48,31 @@ export default function PropertyDetails() {
   const [visitDate, setVisitDate] = useState('');
   const [msg, setMsg] = useState('I am interested in scheduling a premium site tour. Please contact me with availability.');
   const [success, setSuccess] = useState(false);
+  const [downloadingBrochure, setDownloadingBrochure] = useState(false);
+
+  const triggerBrochureDownload = (e) => {
+    if (e) e.preventDefault();
+    setDownloadingBrochure(true);
+    
+    fetch('/Shri-Krishna-Builders-Brochure.pdf', { method: 'HEAD' })
+      .then((res) => {
+        setDownloadingBrochure(false);
+        if (res.ok) {
+          const link = document.createElement('a');
+          link.href = '/Shri-Krishna-Builders-Brochure.pdf';
+          link.download = 'Shri-Krishna-Builders-Brochure.pdf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          alert("We apologize, but the corporate brochure is currently undergoing updates. Please try again shortly or contact our site office directly.");
+        }
+      })
+      .catch(() => {
+        setDownloadingBrochure(false);
+        alert("Unable to download the brochure right now. Please check your network connection or contact us at info@shrikrishnabuilders.com.");
+      });
+  };
 
   // Interactive EMI States
   const [downPaymentPercent, setDownPaymentPercent] = useState(20);
@@ -661,9 +686,13 @@ export default function PropertyDetails() {
                   <h3>Download Project E-Brochure</h3>
                   <p>Get instant access to structural layouts, floor plans, material schedules, and pricing plans.</p>
                 </div>
-                <button onClick={() => setSuccess(true)} className="btn btn-secondary">
+                <button 
+                  onClick={triggerBrochureDownload} 
+                  className="btn btn-secondary"
+                  disabled={downloadingBrochure}
+                >
                   <FileText size={16} />
-                  <span>Download PDF Brochure</span>
+                  <span>{downloadingBrochure ? 'Downloading...' : 'Download PDF Brochure'}</span>
                 </button>
               </div>
             </div>

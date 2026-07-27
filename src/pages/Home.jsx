@@ -65,14 +65,29 @@ export default function Home({ onOpenVisitModal }) {
     navigate('/properties');
   };
 
-  // Brochure Download Simulator
+  // Real PDF Brochure Download Handler
   const triggerBrochureDownload = (e) => {
     e.preventDefault();
     setDownloadingBrochure(true);
-    setTimeout(() => {
-      setDownloadingBrochure(false);
-      alert("Brochure Download Started! Shri_Krishna_Corporate_Portfolio.pdf has been simulated successfully.");
-    }, 1500);
+    
+    fetch('/Shri-Krishna-Builders-Brochure.pdf', { method: 'HEAD' })
+      .then((res) => {
+        setDownloadingBrochure(false);
+        if (res.ok) {
+          const link = document.createElement('a');
+          link.href = '/Shri-Krishna-Builders-Brochure.pdf';
+          link.download = 'Shri-Krishna-Builders-Brochure.pdf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          alert("We apologize, but the corporate brochure is currently undergoing updates. Please try again shortly or contact our site office directly.");
+        }
+      })
+      .catch(() => {
+        setDownloadingBrochure(false);
+        alert("Unable to download the brochure right now. Please check your network connection or contact us at info@shrikrishnabuilders.com.");
+      });
   };
 
   // GSAP Reveals
