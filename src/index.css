@@ -1897,7 +1897,9 @@ img {
   right: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(18, 18, 18, 0.96) !important;
+  max-height: none !important;
+  border-bottom: none !important;
+  background: rgba(18, 18, 18, 0.98) !important;
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   z-index: 10000;
