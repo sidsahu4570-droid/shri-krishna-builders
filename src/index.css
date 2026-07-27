@@ -2479,10 +2479,9 @@ img {
   .timeline-line {
     display: block !important;
     position: absolute !important;
-    top: 40px !important;
-    bottom: 40px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+    top: 60px !important;
+    bottom: 60px !important;
+    left: 19px !important; /* Centered with 38px circle */
     width: 2px !important;
     height: auto !important;
     background-color: rgba(200, 164, 93, 0.25) !important;
@@ -2491,9 +2490,9 @@ img {
 
   .timeline-node {
     display: flex !important;
-    flex-direction: column-reverse !important;
+    flex-direction: row !important;
     align-items: center !important;
-    gap: 2.5rem !important;
+    gap: 1.5rem !important;
     width: 100% !important;
     position: relative !important;
     z-index: 2 !important;
