@@ -35,33 +35,17 @@ export default function Navbar({ onOpenVisitModal }) {
     }
   };
 
-  const transparentPages = [
-    '/',
-    '/about',
-    '/projects',
-    '/properties',
-    '/services',
-    '/gallery',
-    '/blogs',
-    '/testimonials',
-    '/faqs',
-    '/contact',
-    '/why-choose-us',
-    '/investment-guide',
-    '/careers'
-  ];
-  const isTransparentPage = transparentPages.includes(location.pathname);
+  const isHome = location.pathname === '/';
 
   return (
-    <header
-      className={`navbar-fixed ${
-        isScrolled 
-          ? 'navbar-glass' 
-          : isTransparentPage 
-            ? 'navbar-transparent' 
-            : 'navbar-solid'
-      }`}
-    >
+    <div className="navbar-fixed-wrapper">
+      <header
+        className={`navbar-fixed ${
+          isScrolled 
+            ? 'navbar-glass' 
+            : 'navbar-transparent'
+        }`}
+      >
       <div className="navbar-container">
         {/* Left: Logo */}
         <Link to="/" className="navbar-logo">
@@ -240,5 +224,6 @@ export default function Navbar({ onOpenVisitModal }) {
         </div>
       </div>
     </header>
+    </div>
   );
 }
