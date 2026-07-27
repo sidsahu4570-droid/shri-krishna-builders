@@ -28,7 +28,6 @@ export default function Home({ onOpenVisitModal }) {
   // Interactive States
   const [activeFaq, setActiveFaq] = useState(null);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [videoOpen, setVideoOpen] = useState(false);
   const [activeMapPin, setActiveMapPin] = useState(null);
   const [currentProject, setCurrentProject] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -490,39 +489,6 @@ export default function Home({ onOpenVisitModal }) {
         </div>
       </section>
 
-      {/* 6. VIRTUAL PROPERTY TOUR CARD */}
-      <section className="section section-dark tour-section">
-        <div className="container">
-          <div className="tour-banner-wrapper glass-panel-dark reveal-on-scroll">
-            <div className="tour-visual-box">
-              <img 
-                src="https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?auto=format&fit=crop&w=1200&q=80" 
-                alt="Luxury Penthouse Virtual walkthrough preview" 
-              />
-              <button onClick={() => setVideoOpen(true)} className="play-tour-btn" aria-label="Play virtual video walk through">
-                <Play size={24} fill="var(--color-dark)" />
-              </button>
-            </div>
-            
-            <div className="tour-text-box">
-              <span className="subtitle-premium">Cinematic Preview</span>
-              <h3 className="tour-title">Take A Virtual Property Tour</h3>
-              <p>
-                Cannot visit Indore in person right now? Watch our ultra-HD drone flight walkthrough detailing the concrete layouts, emerald landscapes, and finished luxury bungalows of Kanak Smart City.
-              </p>
-              <div className="tour-features-bullets">
-                <span className="tour-feature-tag">4K Drone Elevation</span>
-                <span className="tour-feature-tag">3D Interior Spatial View</span>
-                <span className="tour-feature-tag">Landscape Garden Walk</span>
-              </div>
-              <button onClick={() => setVideoOpen(true)} className="btn btn-secondary">
-                Play HD Video Walkthrough
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 6.3. PREMIUM MATERIALS & ENGINEERING SPOTLIGHT */}
       <section className="section materials-craft-section" style={{ borderBottom: '1px solid rgba(200, 164, 93, 0.15)' }}>
         <div className="container materials-split-wrapper reveal-on-scroll">
@@ -855,24 +821,6 @@ export default function Home({ onOpenVisitModal }) {
           </div>
         </div>
       </section>
-
-      {/* Video Modal Popup */}
-      {videoOpen && (
-        <div className="video-modal-overlay" onClick={() => setVideoOpen(false)}>
-          <div className="video-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="video-modal-close" onClick={() => setVideoOpen(false)}>×</button>
-            <iframe 
-              width="100%" 
-              height="450" 
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
-              title="Shri Krishna Builders Virtual Property Tour" 
-              frameBorder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
