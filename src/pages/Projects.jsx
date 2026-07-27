@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useProperties } from '../context/PropertyContext';
 import { MapPin, Compass, Building, Layers, ArrowRight } from 'lucide-react';
+
+const projectToPropertyMap = {
+  'kanak-smart-city': 'bungalow-solitaire',
+  'krishna-aura-estates': 'villa-krishna-aura',
+  'shri-nivas-villas': 'bungalow-shri-nivas',
+  'krishna-royal-commercial': 'villa-royal-arcade',
+  'krishna-upvan': 'farm-krishna-upvan'
+};
 
 export default function Projects() {
   const { projects } = useProperties();
@@ -73,13 +82,13 @@ export default function Projects() {
                     </div>
                   </div>
 
-                  <a 
-                    href={`tel:9644699206`}
+                  <Link 
+                    to={`/properties/${projectToPropertyMap[proj.id] || 'villa-krishna-aura'}`}
                     className="btn btn-primary project-inquire-btn"
                   >
-                    <span>Inquire About Phase Plots</span>
+                    <span>View Complete Details</span>
                     <ArrowRight size={16} />
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
