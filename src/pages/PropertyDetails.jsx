@@ -189,8 +189,9 @@ export default function PropertyDetails() {
 
   return (
     <div className="property-details-page">
-      
-      {/* 1. Header Navigation bar */}
+      {!isMobile ? (
+        <>
+          {/* 1. Header Navigation bar */}
       <div className="details-top-nav container">
         <Link to="/properties" className="back-link">
           <ArrowLeft size={16} />
@@ -1029,6 +1030,536 @@ export default function PropertyDetails() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+        </>
+      ) : (
+        <div className="mobile-details-container">
+          
+          {/* 1. Sticky Mobile Header Info Row */}
+          <div className="mobile-details-top-bar">
+            <Link to="/properties" className="mobile-back-btn">
+              <ArrowLeft size={20} />
+              <span>Catalog</span>
+            </Link>
+            <span className="mobile-project-code">Project: {property.id.toUpperCase().substring(0, 8)}</span>
+          </div>
+
+          {/* 2. Property Image Carousel (Swipe Slider) */}
+          <div className="mobile-image-carousel-panel">
+            <div className="mobile-carousel-slider" onClick={() => setLightboxOpen(true)}>
+              <img src={galleryImages[activeImgIndex]} alt={property.name} className="mobile-carousel-img" />
+              <div className="mobile-image-gradient-overlay"></div>
+              
+              {/* Image Indicator */}
+              <span className="mobile-image-counter">
+                {activeImgIndex + 1} / {galleryImages.length}
+              </span>
+            </div>
+
+            {/* Touch navigation controls */}
+            <div className="mobile-carousel-nav-row">
+              <button 
+                type="button"
+                className="mobile-carousel-nav-btn"
+                onClick={() => setActiveImgIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1))}
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <div className="mobile-carousel-dots">
+                {galleryImages.map((_, idx) => (
+                  <span 
+                    key={idx} 
+                    className={`carousel-dot ${activeImgIndex === idx ? 'active' : ''}`}
+                    onClick={() => setActiveImgIndex(idx)}
+                  ></span>
+                ))}
+              </div>
+              <button 
+                type="button"
+                className="mobile-carousel-nav-btn"
+                onClick={() => setActiveImgIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1))}
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
+          </div>
+
+          {/* 3. Property Summary Premium Card */}
+          <div className="mobile-summary-card glass-panel">
+            <div className="mobile-summary-header">
+              <span className="mobile-summary-status">{property.status}</span>
+              <span className="mobile-summary-type">{property.type}</span>
+            </div>
+            <h1 className="mobile-summary-title">{property.name}</h1>
+            <h2 className="mobile-summary-price">{property.price}</h2>
+            
+            <div className="mobile-summary-location-row">
+              <MapPin size={16} />
+              <span>{property.location}</span>
+            </div>
+
+            <div className="mobile-summary-grid">
+              <div className="summary-grid-item">
+                <span className="summary-item-label">Built-up Area</span>
+                <strong className="summary-item-val">{property.area}</strong>
+              </div>
+              <div className="summary-grid-item">
+                <span className="summary-item-label">Configuration</span>
+                <strong className="summary-item-val">{property.bedrooms > 0 ? `${property.bedrooms} BHK` : 'Commercial'}</strong>
+              </div>
+              <div className="summary-grid-item">
+                <span className="summary-item-label">Possession</span>
+                <strong className="summary-item-val">Dec 2026</strong>
+              </div>
+              <div className="summary-grid-item">
+                <span className="summary-item-label">Builder</span>
+                <strong className="summary-item-val">Shri Krishna</strong>
+              </div>
+            </div>
+          </div>
+
+          {/* 4. Quick Property Facts / Key Highlights */}
+          <div className="mobile-section-wrapper">
+            <h3 className="mobile-section-title">Key Highlights</h3>
+            <div className="mobile-highlights-stack">
+              <div className="mobile-highlight-row">
+                <div className="highlight-row-left">
+                  <BedDouble size={24} className="highlight-row-icon" />
+                  <span>Bedrooms</span>
+                </div>
+                <strong className="highlight-row-val">{property.bedrooms > 0 ? `${property.bedrooms} BHK` : 'Commercial'}</strong>
+              </div>
+
+              <div className="mobile-highlight-row">
+                <div className="highlight-row-left">
+                  <Bath size={24} className="highlight-row-icon" />
+                  <span>Bathrooms</span>
+                </div>
+                <strong className="highlight-row-val">{property.bathrooms} Baths</strong>
+              </div>
+
+              <div className="mobile-highlight-row">
+                <div className="highlight-row-left">
+                  <Maximize2 size={24} className="highlight-row-icon" />
+                  <span>Built-up Area</span>
+                </div>
+                <strong className="highlight-row-val">{property.area}</strong>
+              </div>
+
+              <div className="mobile-highlight-row">
+                <div className="highlight-row-left">
+                  <HomeIcon size={24} className="highlight-row-icon" />
+                  <span>Plot Size</span>
+                </div>
+                <strong className="highlight-row-val">2,400 Sq.Yd</strong>
+              </div>
+
+              <div className="mobile-highlight-row">
+                <div className="highlight-row-left">
+                  <Compass size={24} className="highlight-row-icon" />
+                  <span>Facing</span>
+                </div>
+                <strong className="highlight-row-val">East Vaastu</strong>
+              </div>
+
+              <div className="mobile-highlight-row">
+                <div className="highlight-row-left">
+                  <Layers size={24} className="highlight-row-icon" />
+                  <span>Parking</span>
+                </div>
+                <strong className="highlight-row-val">2 Covered</strong>
+              </div>
+
+              <div className="mobile-highlight-row">
+                <div className="highlight-row-left">
+                  <Calendar size={24} className="highlight-row-icon" />
+                  <span>Possession</span>
+                </div>
+                <strong className="highlight-row-val">Dec 2026</strong>
+              </div>
+
+              <div className="mobile-highlight-row">
+                <div className="highlight-row-left">
+                  <Sparkles size={24} className="highlight-row-icon" />
+                  <span>Furnishing</span>
+                </div>
+                <strong className="highlight-row-val">Semi-Furnished</strong>
+              </div>
+
+              <div className="mobile-highlight-row">
+                <div className="highlight-row-left">
+                  <HomeIcon size={24} className="highlight-row-icon" />
+                  <span>Property Type</span>
+                </div>
+                <strong className="highlight-row-val">{property.type}</strong>
+              </div>
+
+              <div className="mobile-highlight-row">
+                <div className="highlight-row-left">
+                  <ShieldCheck size={24} className="highlight-row-icon" />
+                  <span>RERA Number</span>
+                </div>
+                <strong className="highlight-row-val" style={{ color: 'var(--color-secondary)' }}>MP-RERA-8930</strong>
+              </div>
+            </div>
+          </div>
+
+          {/* 5. Property Overview Extended Narrative */}
+          <div className="mobile-section-wrapper">
+            <h3 className="mobile-section-title">Property Overview</h3>
+            <div className="mobile-narrative-box">
+              <p>
+                <strong>Architectural Philosophy:</strong> Engineered to provide a bespoke lifestyle, these residences represent the absolute zenith of luxury development. We merge clean, contemporary minimalist geometry with floor-to-ceiling glass paneling and raw travertine stone columns.
+              </p>
+              <p>
+                <strong>Uncompromising Structure:</strong> Built for generations, the foundations are structured with corrosion-resistant premium TMT steel bars and high-grade M25 concrete, providing ultimate seismic resistance.
+              </p>
+              <p>
+                <strong>Global Finishes:</strong> All interiors are dressed in imported Italian marble (Bottochino and Satvario options). Features include modular designer kitchens equipped with soft-close Blum hardware, integrated chimney hoods, and premium Kohler bath hardware.
+              </p>
+            </div>
+          </div>
+
+          {/* 6. Exclusive Amenities */}
+          <div className="mobile-section-wrapper">
+            <h3 className="mobile-section-title">Exclusive Amenities</h3>
+            <div className="mobile-amenities-stack">
+              {amenitiesList.slice(0, 10).map((am, idx) => (
+                <div key={idx} className="mobile-amenity-card">
+                  <div className="mobile-amenity-icon">{am.icon}</div>
+                  <div className="mobile-amenity-info">
+                    <strong>{am.title}</strong>
+                    <span>{am.desc}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 7. Image Gallery Grid */}
+          <div className="mobile-section-wrapper">
+            <h3 className="mobile-section-title">Photo Gallery</h3>
+            <div className="mobile-photo-grid">
+              {galleryImages.map((img, idx) => (
+                <div 
+                  key={idx} 
+                  className="mobile-photo-thumb"
+                  onClick={() => {
+                    setActiveImgIndex(idx);
+                    setLightboxOpen(true);
+                  }}
+                >
+                  <img src={img} alt={`Gallery ${idx + 1}`} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 8. Interactive Floor Plans */}
+          <div className="mobile-section-wrapper">
+            <h3 className="mobile-section-title">Floor Plans</h3>
+            <div className="mobile-floorplan-panel glass-panel">
+              <div className="mobile-floorplan-selector">
+                {Object.keys(floorPlanDetails).map((plan) => (
+                  <button 
+                    key={plan}
+                    onClick={() => setActiveFloorPlan(plan)}
+                    className={`mobile-floorplan-tab ${activeFloorPlan === plan ? 'active' : ''}`}
+                  >
+                    {plan}
+                  </button>
+                ))}
+              </div>
+              <div className="mobile-floorplan-details">
+                <h4>{activeFloorPlan} Scheme</h4>
+                <ul className="mobile-floorplan-list">
+                  <li>Area: {floorPlanDetails[activeFloorPlan].area}</li>
+                  <li>Rooms: {floorPlanDetails[activeFloorPlan].rooms}</li>
+                </ul>
+                <div className="mobile-floorplan-img-box" onClick={() => setLightboxOpen(true)}>
+                  <img src={floorPlanDetails[activeFloorPlan].image} alt="Floorplan Layout" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 9. Location Advantages & Geographical map */}
+          <div className="mobile-section-wrapper">
+            <h3 className="mobile-section-title">Location Advantages</h3>
+            <div className="mobile-proximity-list">
+              <div className="mobile-proximity-item">
+                <span className="proximity-title">Aurobindo Hospital</span>
+                <strong className="proximity-time">5 Mins (1.2 km)</strong>
+              </div>
+              <div className="mobile-proximity-item">
+                <span className="proximity-title">DPS School Indore</span>
+                <strong className="proximity-time">10 Mins (3.5 km)</strong>
+              </div>
+              <div className="mobile-proximity-item">
+                <span className="proximity-title">Bypass Metro Station</span>
+                <strong className="proximity-time">12 Mins (4.2 km)</strong>
+              </div>
+              <div className="mobile-proximity-item">
+                <span className="proximity-title">Indore Airport (DABH)</span>
+                <strong className="proximity-time">25 Mins (14.0 km)</strong>
+              </div>
+            </div>
+
+            <div className="mobile-map-box">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.122847970717!2d75.8500207!3d22.718873!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd15df754f75%3A0x67a3a9bf049b1837!2sRajwada%2C%20Indore%2C%20Madhya%20Pradesh%20452002!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+                width="100%" 
+                height="250" 
+                style={{ border: 0, borderRadius: '12px' }} 
+                allowFullScreen="" 
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+
+          {/* 10. Construction Quality Timeline */}
+          <div className="mobile-section-wrapper">
+            <h3 className="mobile-section-title">Construction Progress</h3>
+            <div className="mobile-progress-timeline glass-panel">
+              <div className="mobile-timeline-header">
+                <span>Overall Build Progress</span>
+                <strong>88%</strong>
+              </div>
+              <div className="mobile-timeline-track">
+                <div className="mobile-timeline-fill" style={{ width: '88%' }}></div>
+              </div>
+
+              <div className="mobile-timeline-events">
+                <div className="mobile-timeline-event completed">
+                  <div className="event-bullet"><Check size={12} /></div>
+                  <div className="event-info">
+                    <h5>Phase 1: Planning</h5>
+                    <p>MP-RERA registry finalized (Q1 2025)</p>
+                  </div>
+                </div>
+                <div className="mobile-timeline-event completed">
+                  <div className="event-bullet"><Check size={12} /></div>
+                  <div className="event-info">
+                    <h5>Phase 2: Foundation</h5>
+                    <p>Basement columns & base slabs complete (Q3 2025)</p>
+                  </div>
+                </div>
+                <div className="mobile-timeline-event in-progress">
+                  <div className="event-bullet"><Check size={12} /></div>
+                  <div className="event-info">
+                    <h5>Phase 3: Finishes</h5>
+                    <p>Plastering & marble installations (Ongoing)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 11. Redesigned Mobile EMI Calculator (Full-Width Section) */}
+          <div className="mobile-section-wrapper mobile-emi-section-wrapper">
+            <h3 className="mobile-section-title">EMI Calculator</h3>
+            <div className="mobile-emi-card">
+              <div className="mobile-emi-price-row">
+                <span>Property Price</span>
+                <strong>₹ {(basePrice / 10000000).toFixed(2)} Cr</strong>
+              </div>
+
+              <div className="mobile-emi-sliders">
+                <div className="mobile-emi-slider-row">
+                  <div className="slider-label-row">
+                    <span>Down Payment ({downPaymentPercent}%)</span>
+                    <strong>₹ {(calculatedDownPayment / 100000).toFixed(1)} Lakh</strong>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="10" 
+                    max="50" 
+                    step="5"
+                    value={downPaymentPercent} 
+                    onChange={(e) => setDownPaymentPercent(Number(e.target.value))} 
+                    className="mobile-emi-range-input"
+                  />
+                </div>
+
+                <div className="mobile-emi-slider-row">
+                  <div className="slider-label-row">
+                    <span>Loan Term</span>
+                    <strong>{loanTerm} Years</strong>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="5" 
+                    max="30" 
+                    value={loanTerm} 
+                    onChange={(e) => setLoanTerm(Number(e.target.value))} 
+                    className="mobile-emi-range-input"
+                  />
+                </div>
+
+                <div className="mobile-emi-slider-row">
+                  <div className="slider-label-row">
+                    <span>Interest Rate</span>
+                    <strong>{interestRate}%</strong>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="6.5" 
+                    max="12.0" 
+                    step="0.1" 
+                    value={interestRate} 
+                    onChange={(e) => setInterestRate(Number(e.target.value))} 
+                    className="mobile-emi-range-input"
+                  />
+                </div>
+              </div>
+
+              <div className="mobile-emi-loan-card">
+                <span>Funding Loan Amount</span>
+                <strong>₹ {(calculatedLoanAmount / 100000).toFixed(1)} Lakhs</strong>
+              </div>
+
+              <div className="mobile-emi-result-card">
+                <span>Estimated Monthly Installment</span>
+                <strong>₹ {calculateEMI().toLocaleString('en-IN')} / Mo</strong>
+              </div>
+
+              <button type="button" onClick={() => setSuccess(true)} className="btn btn-secondary w-full mobile-calculator-cta">
+                Book Financial Consultation
+              </button>
+            </div>
+          </div>
+
+          {/* 12. Full-Width Inquiry Form */}
+          <div className="mobile-section-wrapper">
+            <h3 className="mobile-section-title">Inquire About This Unit</h3>
+            <div className="mobile-inquiry-card glass-panel">
+              <p className="mobile-inquiry-desc">Verify layout configurations, schedule physical walks, or lock site visit slots.</p>
+              
+              {!success ? (
+                <form onSubmit={handleInquirySubmit} className="mobile-inquiry-fields">
+                  <div className="mobile-form-group">
+                    <label>Full Name</label>
+                    <input 
+                      type="text" 
+                      required 
+                      className="mobile-form-input" 
+                      placeholder="e.g. Rajat Sen"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+                  <div className="mobile-form-group">
+                    <label>Phone Number</label>
+                    <input 
+                      type="tel" 
+                      required 
+                      className="mobile-form-input" 
+                      placeholder="e.g. +91 9644699206"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                    />
+                  </div>
+                  <div className="mobile-form-group">
+                    <label>Email Address</label>
+                    <input 
+                      type="email" 
+                      className="mobile-form-input" 
+                      placeholder="e.g. rajat@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="mobile-form-group">
+                    <label>Preferred Visit Date</label>
+                    <input 
+                      type="date" 
+                      className="mobile-form-input" 
+                      value={visitDate}
+                      onChange={(e) => setVisitDate(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="mobile-inquiry-actions-stack">
+                    <button type="submit" className="btn btn-secondary w-full mobile-inquiry-btn">
+                      Submit Inquiry Request
+                    </button>
+                    <a href="tel:9644699206" className="btn call-now-btn w-full mobile-contact-btn">
+                      <Phone size={16} />
+                      <span>Call Sales Office</span>
+                    </a>
+                    <a href="https://wa.me/919644699206" target="_blank" rel="noreferrer" className="btn whatsapp-btn w-full mobile-contact-btn">
+                      <span>Chat on WhatsApp</span>
+                    </a>
+                  </div>
+                </form>
+              ) : (
+                <div className="mobile-inquiry-success">
+                  <ShieldCheck size={48} className="success-check-icon" />
+                  <h4>Inquiry Submitted!</h4>
+                  <p>A luxury relationship manager will connect with you inside 15 minutes.</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* 13. Similar Properties Horizontal Swipe Carousel */}
+          <div className="mobile-section-wrapper mobile-similar-section-wrapper">
+            <h3 className="mobile-section-title">Similar Offerings</h3>
+            <p className="mobile-section-desc">Swipe to discover other curated estates matching your search profile.</p>
+            
+            <div className="mobile-similar-swipe-container">
+              {similarProps.map((prop) => (
+                <div key={prop.id} className="mobile-similar-card">
+                  <div className="mobile-similar-card-img-box">
+                    <img src={prop.image} alt={prop.name} />
+                    <span className="mobile-similar-status-badge">{prop.status}</span>
+                  </div>
+                  <div className="mobile-similar-card-body">
+                    <span className="mobile-similar-card-price">{prop.price}</span>
+                    <h4 className="mobile-similar-card-title">{prop.name}</h4>
+                    <div className="mobile-similar-card-loc">
+                      <MapPin size={12} />
+                      <span>{prop.location}</span>
+                    </div>
+                    <Link to={`/properties/${prop.id}`} className="btn btn-primary w-full mobile-similar-view-btn">
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Fullscreen Lightbox Overlay */}
+          {lightboxOpen && (
+            <div className="lightbox-overlay-modal" onClick={() => setLightboxOpen(false)}>
+              <div className="lightbox-content-box" onClick={(e) => e.stopPropagation()}>
+                <button type="button" className="close-lightbox-btn" onClick={() => setLightboxOpen(false)}>&times;</button>
+                <div className="lightbox-image-container">
+                  <img src={galleryImages[activeImgIndex]} alt="Fullscreen view" />
+                </div>
+                <div className="lightbox-navigation-bar">
+                  <button 
+                    type="button"
+                    className="arrow-nav-btn"
+                    onClick={() => setActiveImgIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1))}
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  <span>Image {activeImgIndex + 1} of {galleryImages.length}</span>
+                  <button 
+                    type="button"
+                    className="arrow-nav-btn"
+                    onClick={() => setActiveImgIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1))}
+                  >
+                    <ChevronRight size={24} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
       )}
 
@@ -2633,6 +3164,962 @@ const styleTag = (
         grid-template-columns: 1fr;
         gap: 2rem;
       }
+    }
+
+    /* ========================================== */
+    /* DEDICATED MOBILE DETAILS PAGE LAYOUT STYLES */
+    /* ========================================== */
+    .mobile-details-container {
+      background-color: #FAF8F5;
+      padding: 94px 16px 40px; /* 16px side padding, spacing from sticky main navbar */
+      color: var(--color-primary);
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    .mobile-details-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .mobile-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .mobile-project-code {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    /* Full-Width Image Swipe Carousel */
+    .mobile-image-carousel-panel {
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .mobile-carousel-slider {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .mobile-carousel-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mobile-image-gradient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(30,30,30,0) 60%, rgba(30,30,30,0.4) 100%);
+      pointer-events: none;
+    }
+
+    .mobile-image-counter {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(30, 30, 30, 0.75);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .mobile-carousel-nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      padding: 0 4px;
+    }
+
+    .mobile-carousel-nav-btn {
+      background: var(--color-white);
+      border: 1px solid rgba(30,30,30,0.06);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      cursor: pointer;
+    }
+
+    .mobile-carousel-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: rgba(30, 30, 30, 0.15);
+      transition: all 0.2s;
+    }
+
+    .carousel-dot.active {
+      background-color: var(--color-secondary);
+      transform: scale(1.25);
+    }
+
+    /* Premium Summary Card */
+    .mobile-summary-card {
+      background-color: var(--color-white);
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid rgba(200, 164, 93, 0.2);
+      box-shadow: 0 10px 30px rgba(30,30,30,0.02);
+      margin-bottom: 32px;
+    }
+
+    .mobile-summary-header {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .mobile-summary-status {
+      background-color: var(--color-secondary);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .mobile-summary-type {
+      background-color: rgba(30,30,30,0.05);
+      color: var(--color-primary);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .mobile-summary-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin: 0 0 6px;
+      letter-spacing: -0.5px;
+      line-height: 1.25;
+    }
+
+    .mobile-summary-price {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--color-secondary);
+      margin: 0 0 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .mobile-summary-location-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(30,30,30,0.05);
+    }
+
+    .mobile-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .summary-grid-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .summary-item-label {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .summary-item-val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    /* Mobile Vertical Sections */
+    .mobile-section-wrapper {
+      margin-top: 32px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .mobile-section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin: 0 0 18px;
+      letter-spacing: -0.3px;
+      position: relative;
+      padding-bottom: 8px;
+    }
+
+    .mobile-section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 36px;
+      height: 2px;
+      background-color: var(--color-secondary);
+      border-radius: 1px;
+    }
+
+    /* Key Highlights full-width rows */
+    .mobile-highlights-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mobile-highlight-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--color-white);
+      border-radius: 12px;
+      padding: 16px 20px;
+      min-height: 84px;
+      border: 1px solid rgba(30,30,30,0.03);
+      box-shadow: 0 4px 12px rgba(30,30,30,0.01);
+      box-sizing: border-box;
+    }
+
+    .highlight-row-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .highlight-row-icon {
+      color: var(--color-secondary);
+      background-color: rgba(200, 164, 93, 0.08);
+      padding: 10px;
+      border-radius: 10px;
+      box-sizing: content-box;
+      width: 24px;
+      height: 24px;
+    }
+
+    .highlight-row-left span {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .highlight-row-val {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      text-align: right;
+    }
+
+    /* Narrative overview details */
+    .mobile-narrative-box {
+      background-color: var(--color-white);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(30,30,30,0.03);
+    }
+
+    .mobile-narrative-box p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--color-text);
+      margin: 0 0 16px;
+    }
+
+    .mobile-narrative-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .mobile-narrative-box strong {
+      color: var(--color-primary);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    /* Amenities stack list layout */
+    .mobile-amenities-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mobile-amenity-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background-color: var(--color-white);
+      border-radius: 12px;
+      padding: 14px 18px;
+      border: 1px solid rgba(30,30,30,0.03);
+    }
+
+    .mobile-amenity-icon {
+      color: var(--color-secondary);
+      background-color: rgba(200, 164, 93, 0.08);
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mobile-amenity-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .mobile-amenity-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .mobile-amenity-info strong {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .mobile-amenity-info span {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    /* Photo gallery grid */
+    .mobile-photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .mobile-photo-thumb {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(30,30,30,0.04);
+    }
+
+    .mobile-photo-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Interactive Floor Plans */
+    .mobile-floorplan-panel {
+      background-color: var(--color-white);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(30,30,30,0.04);
+    }
+
+    .mobile-floorplan-selector {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(30,30,30,0.05);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-floorplan-tab {
+      background-color: rgba(30,30,30,0.02);
+      border: 1px solid rgba(30,30,30,0.04);
+      color: var(--color-text-muted);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .mobile-floorplan-tab.active {
+      background-color: var(--color-secondary);
+      border-color: var(--color-secondary);
+      color: #fff;
+    }
+
+    .mobile-floorplan-details h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0 0 10px;
+      color: var(--color-primary);
+    }
+
+    .mobile-floorplan-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mobile-floorplan-list li {
+      font-size: 0.85rem;
+      color: var(--color-text);
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .mobile-floorplan-list li::before {
+      content: '•';
+      position: absolute;
+      left: 2px;
+      color: var(--color-secondary);
+    }
+
+    .mobile-floorplan-img-box {
+      width: 100%;
+      height: 180px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(30,30,30,0.05);
+    }
+
+    .mobile-floorplan-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Proximity list */
+    .mobile-proximity-list {
+      background-color: var(--color-white);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(30,30,30,0.04);
+    }
+
+    .mobile-proximity-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .proximity-title {
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    .proximity-time {
+      color: var(--color-secondary);
+      font-weight: 700;
+    }
+
+    .mobile-map-box {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Progress timeline */
+    .mobile-progress-timeline {
+      background-color: var(--color-white);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(30,30,30,0.04);
+    }
+
+    .mobile-timeline-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .mobile-timeline-track {
+      width: 100%;
+      height: 6px;
+      background-color: rgba(30,30,30,0.06);
+      border-radius: 3px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .mobile-timeline-fill {
+      height: 100%;
+      background-color: var(--color-secondary);
+      border-radius: 3px;
+    }
+
+    .mobile-timeline-events {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .mobile-timeline-events::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 5px;
+      bottom: 4px;
+      width: 1px;
+      background-color: rgba(30,30,30,0.06);
+    }
+
+    .mobile-timeline-event {
+      position: relative;
+    }
+
+    .event-bullet {
+      position: absolute;
+      left: -20px;
+      top: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 2px solid rgba(30,30,30,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .event-bullet svg {
+      display: none;
+    }
+
+    .mobile-timeline-event.completed .event-bullet {
+      border-color: #10b981;
+      background-color: #10b981;
+      color: #fff;
+    }
+
+    .mobile-timeline-event.completed .event-bullet svg {
+      display: block;
+      width: 8px;
+      height: 8px;
+      stroke-width: 4px;
+    }
+
+    .mobile-timeline-event.in-progress .event-bullet {
+      border-color: var(--color-secondary);
+      background-color: var(--color-secondary);
+    }
+
+    .event-info h5 {
+      margin: 0 0 4px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .event-info p {
+      margin: 0;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    /* Mobile EMI Calculator Full-Width Layout */
+    .mobile-emi-card {
+      background-color: var(--color-white);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(200,164,93,0.15);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .mobile-emi-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(30,30,30,0.06);
+      margin-bottom: 20px;
+    }
+
+    .mobile-emi-price-row span {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+    }
+
+    .mobile-emi-price-row strong {
+      font-size: 1.15rem;
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+
+    .mobile-emi-sliders {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .mobile-emi-slider-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .slider-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .slider-label-row span {
+      color: var(--color-primary);
+    }
+
+    .slider-label-row strong {
+      color: var(--color-secondary);
+    }
+
+    .mobile-emi-range-input {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 48px;
+      background: transparent;
+      outline: none;
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .mobile-emi-range-input::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(30, 30, 30, 0.08);
+      border-radius: 3px;
+    }
+
+    .mobile-emi-range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--color-secondary);
+      cursor: pointer;
+      border: 3px solid var(--color-white);
+      box-shadow: 0 2px 6px rgba(200, 164, 93, 0.4);
+      margin-top: -9px;
+    }
+
+    .mobile-emi-loan-card {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background-color: rgba(200,164,93,0.04);
+      border: 1px dashed rgba(200,164,93,0.25);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .mobile-emi-loan-card span {
+      color: var(--color-primary);
+      font-weight: 500;
+    }
+
+    .mobile-emi-loan-card strong {
+      color: var(--color-secondary);
+      font-weight: 700;
+    }
+
+    .mobile-emi-result-card {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #2f2f2f 100%);
+      color: #fff;
+      padding: 16px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--color-secondary);
+    }
+
+    .mobile-emi-result-card span {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .mobile-emi-result-card strong {
+      font-size: 1.35rem;
+      color: var(--color-secondary);
+      font-weight: 800;
+    }
+
+    .mobile-calculator-cta {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    /* Mobile Full-Width Inquiry Form */
+    .mobile-inquiry-card {
+      background-color: var(--color-white);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(30,30,30,0.04);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .mobile-inquiry-desc {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin: 0 0 20px;
+      line-height: 1.4;
+    }
+
+    .mobile-inquiry-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .mobile-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mobile-form-group label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .mobile-form-input {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(30,30,30,0.1);
+      border-radius: 8px;
+      padding: 0 14px;
+      font-size: 0.9rem;
+      color: var(--color-primary);
+      box-sizing: border-box;
+      outline: none;
+      background-color: rgba(30,30,30,0.01);
+      transition: all 0.2s;
+    }
+
+    .mobile-form-input:focus {
+      border-color: var(--color-secondary);
+      background-color: var(--color-white);
+    }
+
+    .mobile-inquiry-actions-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .mobile-inquiry-btn {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .mobile-contact-btn {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      background: transparent;
+    }
+
+    .mobile-inquiry-success {
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    .success-check-icon {
+      color: #10b981;
+      margin-bottom: 12px;
+    }
+
+    .mobile-inquiry-success h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+
+    .mobile-inquiry-success p {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+
+    /* Similar Properties Swipe Carousel */
+    .mobile-similar-section-wrapper {
+      padding-bottom: 40px;
+    }
+
+    .mobile-section-desc {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin: -10px 0 20px;
+    }
+
+    .mobile-similar-swipe-container {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .mobile-similar-swipe-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mobile-similar-card {
+      flex: 0 0 88%;
+      scroll-snap-align: start;
+      background-color: var(--color-white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(30,30,30,0.04);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-similar-card-img-box {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      position: relative;
+    }
+
+    .mobile-similar-card-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mobile-similar-status-badge {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background-color: var(--color-secondary);
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .mobile-similar-card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mobile-similar-card-price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--color-secondary);
+    }
+
+    .mobile-similar-card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mobile-similar-card-loc {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+    }
+
+    .mobile-similar-view-btn {
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-top: 8px;
     }
   `}</style>
 );
