@@ -7,13 +7,25 @@ import {
   Calculator as CalcIcon, Landmark, ShieldCheck, Compass,
   Info, FileText, Check, ChevronLeft, ChevronRight, HelpCircle,
   Star, Shield, Award, Droplet, Zap, Wifi, Eye, Play, ArrowRight,
-  Sparkles, Home as HomeIcon, Map, Flame, Layers, DollarSign
+  Sparkles, Home as HomeIcon, Map, Flame, Layers, DollarSign, Building
 } from 'lucide-react';
 
 export default function PropertyDetails() {
   const { id } = useParams();
   const { properties } = useProperties();
   const property = properties.find((p) => p.id === id);
+
+  // Mobile viewport tracking state
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Gallery States
   const [activeImgIndex, setActiveImgIndex] = useState(0);
