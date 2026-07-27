@@ -96,7 +96,6 @@ export default function Navbar({ onOpenVisitModal }) {
             <div className="dropdown-menu-panel">
               <Link to="/about" className="dropdown-item-link">About Us</Link>
               <Link to="/why-choose-us" className="dropdown-item-link">Why Choose Us</Link>
-              <Link to="/careers" className="dropdown-item-link">Careers</Link>
               <Link to="/testimonials" className="dropdown-item-link">Testimonials</Link>
             </div>
           </div>
@@ -189,7 +188,6 @@ export default function Navbar({ onOpenVisitModal }) {
             <div className={`mobile-accordion-panel ${activeMobileSubmenu === 'company' ? 'open' : ''}`}>
               <Link to="/about" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
               <Link to="/why-choose-us" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Why Choose Us</Link>
-              <Link to="/careers" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Careers</Link>
               <Link to="/testimonials" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Testimonials</Link>
             </div>
           </div>
