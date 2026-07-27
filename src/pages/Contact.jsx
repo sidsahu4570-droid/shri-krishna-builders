@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
 
 export default function Contact() {
+  const location = useLocation();
+  const prefilledService = location.state?.selectedService;
+
   // Contact Form State
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -9,6 +13,26 @@ export default function Contact() {
   const [propertyType, setPropertyType] = useState('Villa');
   const [msg, setMsg] = useState('');
   const [success, setSuccess] = useState(false);
+
+  // Refs for auto-focusing and scrolling
+  const nameInputRef = useRef(null);
+  const formCardRef = useRef(null);
+
+  useEffect(() => {
+    if (prefilledService) {
+      setMsg(`I am interested in consulting about the "${prefilledService}" service. Please contact me with details.`);
+      
+      const timer = setTimeout(() => {
+        if (formCardRef.current) {
+          formCardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (nameInputRef.current) {
+          nameInputRef.current.focus();
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [prefilledService]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -91,15 +115,32 @@ export default function Contact() {
 
           {/* Right Column: Contact form */}
           <div className="contact-form-column">
-            <div className="contact-form-card glass-panel">
+            <div ref={formCardRef} className="contact-form-card glass-panel">
               <h3 className="form-card-title">Send An Enquiry Message</h3>
               <p className="form-card-subtitle">Fill in details and our relationship manager will reach you in 24 hours.</p>
+
+              {prefilledService && (
+                <div className="selected-service-badge" style={{
+                  backgroundColor: 'rgba(200, 164, 93, 0.08)',
+                  border: '1px solid rgba(200, 164, 93, 0.25)',
+                  borderRadius: '8px',
+                  padding: '10px 14px',
+                  marginBottom: '1rem',
+                  fontSize: '0.85rem',
+                  color: 'var(--color-secondary)',
+                  fontWeight: '700',
+                  textAlign: 'center'
+                }}>
+                  Service Selected: {prefilledService}
+                </div>
+              )}
 
               {!success ? (
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
                     <label className="form-label">Full Name *</label>
                     <input
+                      ref={nameInputRef}
                       type="text"
                       required
                       value={name}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Home, Building, PenTool, Layout, ShoppingCart, 
   Tag, FileCheck, Landmark, Map, RefreshCw, 
@@ -6,6 +7,7 @@ import {
 } from 'lucide-react';
 
 export default function Services() {
+  const navigate = useNavigate();
   const serviceList = [
     {
       icon: <Home size={32} />,
@@ -88,7 +90,11 @@ export default function Services() {
                 <h3 className="service-card-title">{srv.title}</h3>
                 <p className="service-card-desc">{srv.desc}</p>
                 <a 
-                  href="tel:9644699206"
+                  href="/contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/contact', { state: { selectedService: srv.title } });
+                  }}
                   className="service-inquire-link"
                 >
                   <span>Request Consultant</span>
