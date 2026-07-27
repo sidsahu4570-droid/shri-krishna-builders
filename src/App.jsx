@@ -24,6 +24,9 @@ import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
 import NotFound from './pages/NotFound';
+import WhyChooseUs from './pages/WhyChooseUs';
+import InvestmentGuide from './pages/InvestmentGuide';
+import Careers from './pages/Careers';
 
 function App() {
   const [showVisitModal, setShowVisitModal] = useState(false);
@@ -70,6 +73,9 @@ function App() {
               <Route path="/testimonials" element={<Testimonials />} />
               <Route path="/faqs" element={<FAQs />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/why-choose-us" element={<WhyChooseUs />} />
+              <Route path="/investment-guide" element={<InvestmentGuide />} />
+              <Route path="/careers" element={<Careers />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-conditions" element={<TermsConditions />} />
               <Route path="*" element={<NotFound />} />

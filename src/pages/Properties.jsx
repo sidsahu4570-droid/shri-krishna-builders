@@ -207,7 +207,7 @@ const styleTag = (
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 76, 58, 0.85);
+      background: rgba(30, 30, 30, 0.85);
     }
 
     /* Advanced filter bar styling */
@@ -238,7 +238,7 @@ const styleTag = (
 
     .filter-select-field {
       padding: 12px 16px;
-      border: 1px solid rgba(15, 76, 58, 0.1);
+      border: 1px solid rgba(30, 30, 30, 0.1);
       border-radius: 4px;
       font-family: var(--font-body);
       font-size: 0.9rem;
@@ -366,8 +366,8 @@ const styleTag = (
     .property-features-strip {
       display: flex;
       gap: 1rem;
-      border-top: 1px solid rgba(15, 76, 58, 0.05);
-      border-bottom: 1px solid rgba(15, 76, 58, 0.05);
+      border-top: 1px solid rgba(30, 30, 30, 0.05);
+      border-bottom: 1px solid rgba(30, 30, 30, 0.05);
       padding: 10px 0;
       margin: 5px 0;
     }

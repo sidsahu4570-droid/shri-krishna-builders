@@ -4,9 +4,8 @@ import { useProperties } from '../context/PropertyContext';
 import Calculator from '../components/Calculator';
 import { 
   Building, Calendar, ShieldCheck, Landmark, Compass, Award, 
-  MapPin, Play, UserCheck, Star, ChevronLeft, ChevronRight, 
-  ArrowRight, Phone, Clock, FileText, CheckCircle2, Heart,
-  Shield, CheckCircle, HelpCircle, HardHat, AwardIcon
+  MapPin, Play, Star, ChevronLeft, ChevronRight, 
+  ArrowRight, Phone, CheckCircle2, Shield, Award as AwardIcon, CheckCircle, HelpCircle, HardHat, FileDown 
 } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -17,14 +16,6 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home({ onOpenVisitModal }) {
   const { properties, projects, testimonials, faqs, blogs } = useProperties();
   const navigate = useNavigate();
-
-  const mapPins = [
-    { id: 1, name: 'Kanak Smart City', x: '45%', y: '40%', type: 'Township', path: '/projects' },
-    { id: 2, name: 'Krishna Aura Villas', x: '35%', y: '48%', type: 'Villas', path: '/properties/villa-krishna-aura' },
-    { id: 3, name: 'Krishna Heights Penthouse', x: '58%', y: '32%', type: 'Apartments', path: '/properties/apartments-krishna-heights' },
-    { id: 4, name: 'Shri Nivas Bungalows', x: '42%', y: '55%', type: 'Bungalows', path: '/properties/bungalow-shri-nivas' },
-    { id: 5, name: 'Krishna Royal Plaza', x: '63%', y: '52%', type: 'Commercial', path: '/properties/villa-royal-arcade' }
-  ];
   
   // Interactive States
   const [activeFaq, setActiveFaq] = useState(null);
@@ -33,6 +24,7 @@ export default function Home({ onOpenVisitModal }) {
   const [activeMapPin, setActiveMapPin] = useState(null);
   const [currentProject, setCurrentProject] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [downloadingBrochure, setDownloadingBrochure] = useState(false);
 
   // Hero Search States
   const [searchZone, setSearchZone] = useState('MR-12 Road');
@@ -42,7 +34,7 @@ export default function Home({ onOpenVisitModal }) {
   const containerRef = useRef(null);
   const heroTextRef = useRef(null);
 
-  // Parallax mouse move
+  // Mouse move Parallax
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
     const { innerWidth, innerHeight } = window;
@@ -51,7 +43,7 @@ export default function Home({ onOpenVisitModal }) {
     setMousePos({ x, y });
   };
 
-  // Testimonials Navigation
+  // Testimonial Nav
   const prevTestimonial = () => {
     setActiveTestimonial((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
   };
@@ -59,7 +51,7 @@ export default function Home({ onOpenVisitModal }) {
     setActiveTestimonial((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
   };
 
-  // Projects Carousel
+  // Projects Carousel Navigation
   const nextProject = () => {
     setCurrentProject((prev) => (prev + 1 >= projects.length - 2 ? 0 : prev + 1));
   };
@@ -67,14 +59,23 @@ export default function Home({ onOpenVisitModal }) {
     setCurrentProject((prev) => (prev === 0 ? projects.length - 3 : prev - 1));
   };
 
-  // Search Submit Handler (Frontend only)
+  // Search Action
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // Redirect to properties with parameters
     navigate('/properties');
   };
 
-  // GSAP animations
+  // Brochure Download Simulator
+  const triggerBrochureDownload = (e) => {
+    e.preventDefault();
+    setDownloadingBrochure(true);
+    setTimeout(() => {
+      setDownloadingBrochure(false);
+      alert("Brochure Download Started! Shri_Krishna_Corporate_Portfolio.pdf has been simulated successfully.");
+    }, 1500);
+  };
+
+  // GSAP Reveals
   useGSAP(() => {
     const heroTl = gsap.timeline();
     heroTl.fromTo('.hero-reveal', 
@@ -87,7 +88,6 @@ export default function Home({ onOpenVisitModal }) {
       '-=0.4'
     );
 
-    // Scroll Trigger reveals
     gsap.utils.toArray('.reveal-on-scroll').forEach((sec) => {
       gsap.fromTo(sec, 
         { y: 50, opacity: 0 },
@@ -104,6 +104,14 @@ export default function Home({ onOpenVisitModal }) {
       );
     });
   }, { scope: containerRef });
+
+  const mapPins = [
+    { id: 1, name: 'Kanak Smart City', x: '45%', y: '40%', type: 'Township', path: '/projects' },
+    { id: 2, name: 'Krishna Aura Villas', x: '35%', y: '48%', type: 'Villas', path: '/properties/villa-krishna-aura' },
+    { id: 3, name: 'Krishna Heights Penthouse', x: '58%', y: '32%', type: 'Apartments', path: '/properties/apartments-krishna-heights' },
+    { id: 4, name: 'Shri Nivas Bungalows', x: '42%', y: '55%', type: 'Bungalows', path: '/properties/bungalow-shri-nivas' },
+    { id: 5, name: 'Krishna Royal Plaza', x: '63%', y: '52%', type: 'Commercial', path: '/properties/villa-royal-arcade' }
+  ];
 
   return (
     <div ref={containerRef} className="home-page-container">
@@ -123,7 +131,7 @@ export default function Home({ onOpenVisitModal }) {
               Shri Krishna Builder's & Developers creates luxurious villas, premium bungalows, residential projects and investment opportunities that redefine modern living.
             </p>
             
-            {/* Custom Interactive Property Search Panel */}
+            {/* Glassmorphic Search Bar widget */}
             <form onSubmit={handleSearchSubmit} className="hero-search-bar-widget glass-panel hero-reveal">
               <div className="hero-search-field">
                 <label>Corridor Zone</label>
@@ -177,7 +185,7 @@ export default function Home({ onOpenVisitModal }) {
             </form>
           </div>
 
-          {/* Floating statistics cards with Parallax */}
+          {/* Floating statistics cards */}
           <div className="hero-stats-grid hero-stats-fade" style={{
             transform: `translate3d(${mousePos.x * 0.4}px, ${mousePos.y * 0.4}px, 0)`,
             transition: 'transform 0.2s ease-out'
@@ -240,7 +248,6 @@ export default function Home({ onOpenVisitModal }) {
       <section className="section about-highlights-section">
         <div className="container grid-2">
           
-          {/* Overlapping offset image boxes */}
           <div className="overlap-composition reveal-on-scroll">
             <img 
               src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" 
@@ -258,7 +265,7 @@ export default function Home({ onOpenVisitModal }) {
             </div>
           </div>
 
-          <div className="about-text-content reveal-on-scroll" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div className="about-text-content reveal-on-scroll" style={{ display: 'flex', flexDirection: 'column', justify: 'center' }}>
             <span className="subtitle-premium">Legacy of Elegance</span>
             <h2 className="title-luxury">Building Trust. Creating Landmarks.</h2>
             <p style={{ marginBottom: '1.5rem', lineHeight: '1.8' }}>
@@ -267,34 +274,56 @@ export default function Home({ onOpenVisitModal }) {
             <p style={{ marginBottom: '2rem', lineHeight: '1.8' }}>
               We specialize in custom architectural designs, earthquake-resistant high-rise residences, fully integrated smart townships, and luxury villas. Every home we create represents a perfect fusion of aesthetics and durable engineering.
             </p>
-            <div className="about-values-bullet-grid">
-              <div className="value-bullet">
-                <CheckCircle2 className="bullet-icon" />
-                <div>
-                  <strong>Architectural Excellence</strong>
-                  <p>Designs built by India's top landscape & facade experts.</p>
-                </div>
-              </div>
-              <div className="value-bullet">
-                <CheckCircle2 className="bullet-icon" />
-                <div>
-                  <strong>On-Time Delivery Guarantee</strong>
-                  <p>Commitment backed by legal escrow registry clauses RERA compliant.</p>
-                </div>
-              </div>
+            
+            <div className="about-buttons-row" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+              <Link to="/about" className="btn btn-primary">
+                Our History
+              </Link>
+              <button 
+                onClick={triggerBrochureDownload} 
+                className="btn btn-outline" 
+                style={{ color: 'var(--color-primary)', borderColor: 'var(--color-secondary)' }}
+                disabled={downloadingBrochure}
+              >
+                <FileDown size={18} style={{ marginRight: '8px', color: 'var(--color-secondary)' }} />
+                {downloadingBrochure ? 'Downloading...' : 'Download Brochure'}
+              </button>
             </div>
-            <Link to="/about" className="btn btn-primary" style={{ marginTop: '2rem', width: 'fit-content' }}>
-              Discover Our History
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* 3.5. WHY INVEST IN INDORE (Asymmetric grids storytelling) */}
-      <section className="section why-invest-section" style={{ backgroundColor: '#f6f2eb', borderTop: '1px solid rgba(200, 155, 60, 0.15)', borderBottom: '1px solid rgba(200, 155, 60, 0.15)' }}>
+      {/* 3.3. FOUNDER / CEO MESSAGE SECTION */}
+      <section className="section founder-message-section" style={{ backgroundColor: '#FAF8F5', borderTop: '1px solid rgba(200, 164, 93, 0.12)' }}>
+        <div className="container grid-2" style={{ alignItems: 'center' }}>
+          <div className="reveal-on-scroll">
+            <img 
+              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" 
+              alt="Shri Krishna Builders Founder CEO" 
+              className="founder-profile-img"
+            />
+          </div>
+
+          <div className="reveal-on-scroll">
+            <span className="subtitle-premium">FOUNDER'S ADDRESS</span>
+            <div className="founder-quote-box glass-panel">
+              <p className="founder-quote-text">
+                "Our philosophy is simple: we build structures that endure. Real estate is not about short-term metrics; it is a promise of space, safety, and legacy that we carry for families in Indore."
+              </p>
+              <h3 className="founder-signature">G.S. Sharma</h3>
+              <p style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '600', color: 'var(--color-secondary)' }}>
+                Founder & Chief Executive Officer
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3.5. WHY INVEST IN INDORE */}
+      <section className="section why-invest-section" style={{ backgroundColor: '#f6f2eb', borderTop: '1px solid rgba(200, 164, 93, 0.15)', borderBottom: '1px solid rgba(200, 164, 93, 0.15)' }}>
         <div className="container">
           <div className="showcase-header reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '4rem' }}>
-            <span className="subtitle-premium">GROWTH CAPITALS</span>
+            <span className="subtitle-premium">GROWTH CORRIDORS</span>
             <h2 className="title-luxury title-luxury-center">Why Invest in Indore Corridor?</h2>
             <p style={{ maxWidth: '600px', margin: '0 auto' }}>
               Indore ranks as India's cleaner city champion and is central India's fastest expanding economic hub.
@@ -304,12 +333,12 @@ export default function Home({ onOpenVisitModal }) {
           <div className="invest-grid reveal-on-scroll">
             <div className="invest-card">
               <Shield className="invest-icon" size={32} />
-              <h3>Cleaner City Leader</h3>
+              <h3>Cleanest City Champion</h3>
               <p>Ranked #1 cleanest city in India 7 times consecutively. Excellent municipal infrastructure, low air pollution indexes, and beautiful landscape gardens.</p>
             </div>
             <div className="invest-card">
               <Landmark className="invest-icon" size={32} />
-              <h3>Mega Tech Hub expansions</h3>
+              <h3>Mega Tech Hub Expansions</h3>
               <p>Hosts TCS & Infosys corporate campuses. Rapid workforce migration drives massive annual double-digit rental appreciation near MR-12 Road.</p>
             </div>
             <div className="invest-card">
@@ -332,7 +361,7 @@ export default function Home({ onOpenVisitModal }) {
             </p>
           </div>
 
-          {/* Interactive slider track wrapper */}
+          {/* Interactive slider */}
           <div className="slider-wrapper reveal-on-scroll">
             <div className="slider-track" style={{ transform: `translate3d(calc(-${currentProject} * var(--slider-width)), 0, 0)` }}>
               {projects.map((proj) => (
@@ -363,7 +392,6 @@ export default function Home({ onOpenVisitModal }) {
             </div>
           </div>
 
-          {/* Slider Arrow Controls */}
           <div className="slider-control-bar reveal-on-scroll">
             <button onClick={prevProject} className="slider-nav-arrow" aria-label="Previous project">
               <ChevronLeft size={24} />
@@ -495,8 +523,8 @@ export default function Home({ onOpenVisitModal }) {
         </div>
       </section>
 
-      {/* 6.3. PREMIUM MATERIALS & ENGINEERING SPLIT-SCREEN */}
-      <section className="section materials-craft-section" style={{ borderBottom: '1px solid rgba(200, 155, 60, 0.15)' }}>
+      {/* 6.3. PREMIUM MATERIALS & ENGINEERING SPOTLIGHT */}
+      <section className="section materials-craft-section" style={{ borderBottom: '1px solid rgba(200, 164, 93, 0.15)' }}>
         <div className="container materials-split-wrapper reveal-on-scroll">
           <div className="materials-text-col">
             <span className="subtitle-premium">ENGINEERING EXCELLENCE</span>
@@ -532,10 +560,8 @@ export default function Home({ onOpenVisitModal }) {
       </section>
 
       {/* 6.5. FULL-BLEED LUXURY LIFESTYLE SECTION */}
-      <section className="lifestyle-section" style={{ borderBottom: '1px solid rgba(200, 155, 60, 0.15)' }}>
-        {/* Full-width container with no margins, edge-to-edge layout */}
+      <section className="lifestyle-section" style={{ borderBottom: '1px solid rgba(200, 164, 93, 0.15)' }}>
         <div className="lifestyle-fullbleed-wrapper reveal-on-scroll">
-          {/* Block 1 */}
           <div className="lifestyle-item-block">
             <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80" alt="Clubhouse lounge" />
             <div className="lifestyle-overlay-content">
@@ -545,7 +571,6 @@ export default function Home({ onOpenVisitModal }) {
             </div>
           </div>
 
-          {/* Block 2 */}
           <div className="lifestyle-item-block">
             <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80" alt="Infinity Swimming pool" />
             <div className="lifestyle-overlay-content">
@@ -555,7 +580,6 @@ export default function Home({ onOpenVisitModal }) {
             </div>
           </div>
 
-          {/* Block 3 */}
           <div className="lifestyle-item-block">
             <img src="https://images.unsplash.com/photo-1524813686514-a57563d77d61?auto=format&fit=crop&w=800&q=80" alt="Botanical landscaped garden path" />
             <div className="lifestyle-overlay-content">
@@ -640,8 +664,44 @@ export default function Home({ onOpenVisitModal }) {
         </div>
       </section>
 
+      {/* 7.5. AWARDS & RECOGNITION SECTION */}
+      <section className="section awards-recognition-section" style={{ backgroundColor: '#FAF8F5', borderTop: '1px solid rgba(200, 164, 93, 0.12)' }}>
+        <div className="container">
+          <div className="showcase-header reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <span className="subtitle-premium">HONORS & MILESTONES</span>
+            <h2 className="title-luxury title-luxury-center">Awards & Recognition</h2>
+            <p style={{ maxWidth: '600px', margin: '0 auto' }}>
+              Our commitment to delivering structural integrity and luxurious layout designs has earned us key regional and national accolades.
+            </p>
+          </div>
+
+          <div className="grid-3 reveal-on-scroll">
+            <div className="card-premium" style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', gap: '15px', borderLeft: '3px solid var(--color-secondary)' }}>
+              <AwardIcon size={36} style={{ color: 'var(--color-secondary)' }} />
+              <h3 style={{ fontSize: '1.25rem', color: 'var(--color-primary)' }}>Best Luxury Builder Indore</h3>
+              <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#888' }}>CENTRAL INDIA PROPERTY FORUM 2025</span>
+              <p style={{ fontSize: '0.85rem' }}>Awarded in recognition of our flagship premium duplex bungalows and Vaastu design alignments at Kanak Smart City.</p>
+            </div>
+
+            <div className="card-premium" style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', gap: '15px', borderLeft: '3px solid var(--color-secondary)' }}>
+              <AwardIcon size={36} style={{ color: 'var(--color-secondary)' }} />
+              <h3 style={{ fontSize: '1.25rem', color: 'var(--color-primary)' }}>Excellence in Structural Quality</h3>
+              <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#888' }}>MADHYA PRADESH ENGINEERING COUNCIL</span>
+              <p style={{ fontSize: '0.85rem' }}>Acknowledging our commitment to concrete compressive checks, TMT iron diagnostics, and seismic column protection.</p>
+            </div>
+
+            <div className="card-premium" style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', gap: '15px', borderLeft: '3px solid var(--color-secondary)' }}>
+              <AwardIcon size={36} style={{ color: 'var(--color-secondary)' }} />
+              <h3 style={{ fontSize: '1.25rem', color: 'var(--color-primary)' }}>Clean RERA Compliance Lead</h3>
+              <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#888' }}>REAL ESTATE TRUST COUNCIL OF INDIA</span>
+              <p style={{ fontSize: '0.85rem' }}>Honored for zero regulatory delays, absolute escrow clarity, and timely registry handovers across our townships.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 8. INVESTMENT & EMI CALCULATOR SECTION */}
-      <section className="section calculator-section" style={{ backgroundColor: '#FAF8F5', borderTop: '1px solid rgba(200, 155, 60, 0.15)' }}>
+      <section className="section calculator-section" style={{ backgroundColor: '#FAF8F5', borderTop: '1px solid rgba(200, 164, 93, 0.15)' }}>
         <div className="container">
           <div className="showcase-header reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <span className="subtitle-premium">Financial Clarity</span>
@@ -653,6 +713,42 @@ export default function Home({ onOpenVisitModal }) {
           
           <div className="reveal-on-scroll">
             <Calculator />
+          </div>
+        </div>
+      </section>
+
+      {/* 8.5. PRE-APPROVED BANKING PARTNERS STRIP */}
+      <section className="section banking-partners-section" style={{ backgroundColor: '#f6f2eb', borderTop: '1px solid rgba(200, 164, 93, 0.12)', borderBottom: '1px solid rgba(200, 164, 93, 0.12)', padding: '80px 0' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+            <span className="subtitle-premium">HOME FINANCE</span>
+            <h3 className="title-luxury title-luxury-center" style={{ fontSize: '2rem' }}>Our Pre-Approved Banking Partners</h3>
+            <p style={{ maxWidth: '600px', margin: '0 auto' }}>
+              Acquire competitive mortgage rates and quick sanction files through our verified financial relationships.
+            </p>
+          </div>
+
+          <div className="banking-slider-track reveal-on-scroll">
+            <div className="banking-partner-logo">
+              <Landmark size={20} />
+              <span>State Bank of India</span>
+            </div>
+            <div className="banking-partner-logo">
+              <Landmark size={20} />
+              <span>HDFC Bank</span>
+            </div>
+            <div className="banking-partner-logo">
+              <Landmark size={20} />
+              <span>ICICI Bank</span>
+            </div>
+            <div className="banking-partner-logo">
+              <Landmark size={20} />
+              <span>Axis Bank</span>
+            </div>
+            <div className="banking-partner-logo">
+              <Landmark size={20} />
+              <span>Bank of Baroda</span>
+            </div>
           </div>
         </div>
       </section>

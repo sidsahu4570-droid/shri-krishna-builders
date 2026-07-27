@@ -111,7 +111,7 @@ const styleTag = (
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 76, 58, 0.85);
+      background: rgba(30, 30, 30, 0.85);
     }
 
     .filters-container-wrapper {
@@ -139,7 +139,7 @@ const styleTag = (
 
     .filter-tab-btn {
       background-color: var(--color-white);
-      border: 1px solid rgba(15, 76, 58, 0.1);
+      border: 1px solid rgba(30, 30, 30, 0.1);
       padding: 10px 20px;
       border-radius: var(--border-radius-sm);
       font-family: var(--font-body);
@@ -237,8 +237,8 @@ const styleTag = (
     .project-stats-footer {
       display: flex;
       justify-content: space-between;
-      border-top: 1px solid rgba(15, 76, 58, 0.08);
-      border-bottom: 1px solid rgba(15, 76, 58, 0.08);
+      border-top: 1px solid rgba(30, 30, 30, 0.08);
+      border-bottom: 1px solid rgba(30, 30, 30, 0.08);
       padding: 12px 0;
       margin: 8px 0;
     }

@@ -357,7 +357,7 @@ const styleTag = (
       height: 480px;
       box-shadow: var(--shadow-md);
       margin-bottom: 2rem;
-      border: 1px solid rgba(15, 76, 58, 0.05);
+      border: 1px solid rgba(30, 30, 30, 0.05);
     }
 
     .details-showcase-image img {
@@ -394,7 +394,7 @@ const styleTag = (
       display: flex;
       align-items: center;
       gap: 12px;
-      border-right: 1px solid rgba(15, 76, 58, 0.08);
+      border-right: 1px solid rgba(30, 30, 30, 0.08);
     }
 
     .spec-unit:last-child {
@@ -575,7 +575,7 @@ const styleTag = (
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1rem;
-      border: 1px solid rgba(15, 76, 58, 0.05);
+      border: 1px solid rgba(30, 30, 30, 0.05);
     }
 
     .micro-calc-result span {

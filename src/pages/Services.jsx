@@ -137,7 +137,7 @@ const styleTag = (
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 76, 58, 0.85);
+      background: rgba(30, 30, 30, 0.85);
     }
 
     /* Service card custom design styling */
@@ -152,14 +152,14 @@ const styleTag = (
     .service-icon-wrapper {
       width: 60px;
       height: 60px;
-      background-color: rgba(15, 76, 58, 0.05);
+      background-color: rgba(30, 30, 30, 0.05);
       border-radius: var(--border-radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--color-primary);
       transition: var(--transition-smooth);
-      border: 1px solid rgba(15, 76, 58, 0.08);
+      border: 1px solid rgba(30, 30, 30, 0.08);
     }
 
     .service-card-box:hover .service-icon-wrapper {

@@ -248,7 +248,7 @@ const styleTag = (
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 76, 58, 0.85);
+      background: rgba(30, 30, 30, 0.85);
     }
 
     /* Info listing layouts */
@@ -323,7 +323,7 @@ const styleTag = (
       height: 380px;
       overflow: hidden;
       border-radius: var(--border-radius-lg);
-      border: 1px solid rgba(15, 76, 58, 0.1);
+      border: 1px solid rgba(30, 30, 30, 0.1);
       box-shadow: var(--shadow-sm);
       margin-bottom: 4rem;
     }

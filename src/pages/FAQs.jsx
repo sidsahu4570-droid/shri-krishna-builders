@@ -120,7 +120,7 @@ const styleTag = (
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 76, 58, 0.85);
+      background: rgba(30, 30, 30, 0.85);
     }
 
     /* FAQ Search Bar widget */

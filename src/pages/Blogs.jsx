@@ -79,7 +79,7 @@ const styleTag = (
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 76, 58, 0.85);
+      background: rgba(30, 30, 30, 0.85);
     }
 
     /* Custom Blog cards layout */
@@ -159,7 +159,7 @@ const styleTag = (
       gap: 6px;
       font-size: 0.75rem;
       color: #888;
-      border-top: 1px solid rgba(15, 76, 58, 0.05);
+      border-top: 1px solid rgba(30, 30, 30, 0.05);
       padding-top: 10px;
     }
 

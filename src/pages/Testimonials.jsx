@@ -125,7 +125,7 @@ export default function Testimonials() {
                 </form>
               ) : (
                 <div className="review-success-screen" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-                  <div className="success-icon-badge" style={{ backgroundColor: 'rgba(15, 76, 58, 0.05)', width: '60px', height: '60px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center' }}>
+                  <div className="success-icon-badge" style={{ backgroundColor: 'rgba(30, 30, 30, 0.05)', width: '60px', height: '60px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center' }}>
                     <Check size={28} style={{ color: 'var(--color-primary)' }} />
                   </div>
                   <h4 style={{ color: 'var(--color-primary)', fontSize: '1.2rem' }}>Feedback Submitted Successfully</h4>
@@ -164,7 +164,7 @@ const styleTag = (
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 76, 58, 0.85);
+      background: rgba(30, 30, 30, 0.85);
     }
 
     .testimonials-core-sec {

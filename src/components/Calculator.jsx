@@ -512,7 +512,7 @@ export default function Calculator() {
           display: flex;
           flex-direction: column;
           gap: 4px;
-          border: 1px solid rgba(15, 76, 58, 0.04);
+          border: 1px solid rgba(30, 30, 30, 0.04);
         }
 
         .detail-item.full-width {

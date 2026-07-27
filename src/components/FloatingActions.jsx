@@ -302,7 +302,7 @@ export default function FloatingActions({ showVisitModal, onToggleVisitModal }) 
           left: 0;
           width: 100vw;
           height: 100vh;
-          background-color: rgba(15, 76, 58, 0.4);
+          background-color: rgba(30, 30, 30, 0.4);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
           display: flex;
@@ -370,8 +370,8 @@ export default function FloatingActions({ showVisitModal, onToggleVisitModal }) 
         }
 
         .success-details-card {
-          background-color: rgba(15, 76, 58, 0.05);
-          border: 1px solid rgba(15, 76, 58, 0.1);
+          background-color: rgba(30, 30, 30, 0.05);
+          border: 1px solid rgba(30, 30, 30, 0.1);
           padding: 1.25rem;
           border-radius: var(--border-radius-md);
           width: 100%;

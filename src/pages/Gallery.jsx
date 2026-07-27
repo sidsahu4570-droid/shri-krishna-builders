@@ -125,13 +125,13 @@ const styleTag = (
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 76, 58, 0.85);
+      background: rgba(30, 30, 30, 0.85);
     }
 
     /* Filters buttons matching styling */
     .filter-tab-btn {
       background-color: var(--color-white);
-      border: 1px solid rgba(15, 76, 58, 0.1);
+      border: 1px solid rgba(30, 30, 30, 0.1);
       padding: 10px 20px;
       border-radius: var(--border-radius-sm);
       font-family: var(--font-body);
@@ -181,7 +181,7 @@ const styleTag = (
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to top, rgba(15, 76, 58, 0.9) 0%, rgba(27, 27, 27, 0.4) 100%);
+      background: linear-gradient(to top, rgba(30, 30, 30, 0.9) 0%, rgba(27, 27, 27, 0.4) 100%);
       opacity: 0;
       display: flex;
       flex-direction: column;

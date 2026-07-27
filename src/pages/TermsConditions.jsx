@@ -55,7 +55,7 @@ export default function TermsConditions() {
         .terms-header {
           text-align: center;
           margin-bottom: 2.5rem;
-          border-bottom: 1px solid rgba(15, 76, 58, 0.08);
+          border-bottom: 1px solid rgba(30, 30, 30, 0.08);
           padding-bottom: 1.5rem;
         }
 

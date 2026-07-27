@@ -154,8 +154,8 @@ const styleTag = (
       gap: 20px;
       font-size: 0.8rem;
       color: #666;
-      border-top: 1px solid rgba(15, 76, 58, 0.08);
-      border-bottom: 1px solid rgba(15, 76, 58, 0.08);
+      border-top: 1px solid rgba(30, 30, 30, 0.08);
+      border-bottom: 1px solid rgba(30, 30, 30, 0.08);
       padding: 12px 0;
     }
 
@@ -225,8 +225,8 @@ const styleTag = (
     .author-avatar-stub {
       width: 60px;
       height: 60px;
-      background-color: rgba(15, 76, 58, 0.05);
-      border: 1px solid rgba(15, 76, 58, 0.1);
+      background-color: rgba(30, 30, 30, 0.05);
+      border: 1px solid rgba(30, 30, 30, 0.1);
       border-radius: 50%;
       display: flex;
       align-items: center;
