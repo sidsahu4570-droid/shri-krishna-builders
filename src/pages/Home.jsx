@@ -219,19 +219,19 @@ export default function Home({ onOpenVisitModal }) {
             transform: `translate3d(${mousePos.x * 0.4}px, ${mousePos.y * 0.4}px, 0)`,
             transition: 'transform 0.2s ease-out'
           }}>
-            <div className="hero-stat-card glass-panel">
+            <div className="hero-stat-card glass-panel-dark">
               <span className="stat-number">15+</span>
               <span className="stat-label">Years Experience</span>
             </div>
-            <div className="hero-stat-card glass-panel">
+            <div className="hero-stat-card glass-panel-dark">
               <span className="stat-number">250+</span>
               <span className="stat-label">Projects Delivered</span>
             </div>
-            <div className="hero-stat-card glass-panel">
+            <div className="hero-stat-card glass-panel-dark">
               <span className="stat-number">1200+</span>
               <span className="stat-label">Happy Families</span>
             </div>
-            <div className="hero-stat-card glass-panel">
+            <div className="hero-stat-card glass-panel-dark">
               <span className="stat-number">1.5M+</span>
               <span className="stat-label">Sq Ft Developed</span>
             </div>
