@@ -881,14 +881,20 @@ img {
   color: var(--color-secondary);
   font-weight: 700;
   line-height: 1;
+  display: block !important;
+  margin-bottom: 8px !important;
+  text-align: center;
 }
 
 .stat-label {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: rgba(255, 255, 255, 0.8);
-  font-weight: 500;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  display: block !important;
+  text-align: center;
+  line-height: 1.4 !important;
 }
 
 /* Scroll indicator */
