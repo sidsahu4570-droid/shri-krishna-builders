@@ -17,6 +17,14 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home({ onOpenVisitModal }) {
   const { properties, projects, testimonials, faqs, blogs } = useProperties();
   const navigate = useNavigate();
+
+  const mapPins = [
+    { id: 1, name: 'Kanak Smart City', x: '45%', y: '40%', type: 'Township', path: '/projects' },
+    { id: 2, name: 'Krishna Aura Villas', x: '35%', y: '48%', type: 'Villas', path: '/properties/villa-krishna-aura' },
+    { id: 3, name: 'Krishna Heights Penthouse', x: '58%', y: '32%', type: 'Apartments', path: '/properties/apartments-krishna-heights' },
+    { id: 4, name: 'Shri Nivas Bungalows', x: '42%', y: '55%', type: 'Bungalows', path: '/properties/bungalow-shri-nivas' },
+    { id: 5, name: 'Krishna Royal Plaza', x: '63%', y: '52%', type: 'Commercial', path: '/properties/villa-royal-arcade' }
+  ];
   
   // Interactive States
   const [activeFaq, setActiveFaq] = useState(null);
