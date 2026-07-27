@@ -35,7 +35,7 @@
   --transition-smooth: all 0.5s cubic-bezier(0.25, 1, 0.3, 1);
   --transition-luxury: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Slider Responsive Ratio width */
+  /* Slider Responsive Width */
   --slider-width: 33.333%;
 }
 
@@ -95,7 +95,7 @@ img {
   display: block;
 }
 
-/* Scrollbar */
+/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -170,7 +170,7 @@ img {
   100% { transform: rotate(360deg); }
 }
 
-/* Spacers & Padding */
+/* Section Spacers (Luxury Spacing) */
 .section {
   padding: 150px 0;
   position: relative;
@@ -236,7 +236,7 @@ img {
   margin: 1.25rem auto 0;
 }
 
-/* Glassmorphism panels */
+/* Glassmorphism Panels */
 .glass-panel {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(24px) saturate(180%);
@@ -253,7 +253,7 @@ img {
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
 }
 
-/* Premium Buttons */
+/* Deluxe Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -314,7 +314,7 @@ img {
   border-color: var(--color-white);
 }
 
-/* Cards */
+/* Premium Card elevations */
 .card-premium {
   background-color: var(--color-white);
   border-radius: var(--border-radius-md);
@@ -330,7 +330,7 @@ img {
   border-color: rgba(200, 155, 60, 0.25);
 }
 
-/* Grid Layouts */
+/* Grid Utilities */
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -349,7 +349,7 @@ img {
   gap: 2rem;
 }
 
-/* Form Controls */
+/* Forms */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -392,7 +392,7 @@ img {
    Home Page Specific Styles
    ========================================================================== */
 
-/* Hero */
+/* Hero Section */
 .hero-section {
   height: 100vh;
   width: 100%;
@@ -427,13 +427,11 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  /* Cinematic Radial Glow in center + linear dark fade at bottom */
   background: radial-gradient(circle at 60% 50%, rgba(200, 155, 60, 0.08) 0%, transparent 70%),
               linear-gradient(135deg, rgba(15, 76, 58, 0.9) 0%, rgba(18, 18, 18, 0.8) 100%);
   z-index: 2;
 }
 
-/* Background animated light rays */
 .hero-section::before {
   content: '';
   position: absolute;
@@ -458,7 +456,7 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 72vh;
+  height: 75vh;
   margin-top: 90px;
 }
 
@@ -486,6 +484,55 @@ img {
 .hero-buttons {
   display: flex;
   gap: 1.5rem;
+  align-items: center;
+}
+
+/* Hero Search Dashboard */
+.hero-search-bar-widget {
+  margin-top: 2rem;
+  padding: 1.25rem 2rem;
+  border-radius: 8px;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(15, 76, 58, 0.4);
+}
+
+.hero-search-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.hero-search-field label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+.hero-search-select {
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.hero-search-select option {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.hero-search-divider {
+  width: 1px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .hero-stats-grid {
@@ -588,26 +635,37 @@ img {
   height: 18px;
 }
 
-/* About Section */
-.about-premium-img {
-  width: 100%;
+/* Overlapping Asymmetrical About Visuals */
+.overlap-composition {
+  position: relative;
   height: 520px;
+  display: flex;
+  align-items: center;
+}
+
+.overlap-bg-img {
+  width: 80%;
+  height: 100%;
   object-fit: cover;
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-md);
 }
 
-.about-floating-experience-badge {
+.overlap-fg-card {
   position: absolute;
-  bottom: 40px;
-  left: 40px;
-  padding: 1.75rem;
+  right: 0;
+  bottom: -30px;
+  width: 42%;
+  padding: 2rem;
   border-radius: var(--border-radius-md);
+  z-index: 5;
+  border: 1px solid rgba(200, 155, 60, 0.2);
+}
+
+.about-floating-experience-badge {
   display: flex;
   align-items: center;
   gap: 15px;
-  border-color: rgba(255, 255, 255, 0.3);
-  max-width: 280px;
 }
 
 .badge-years {
@@ -645,6 +703,78 @@ img {
 .value-bullet strong {
   font-size: 0.95rem;
   color: var(--color-dark);
+}
+
+/* Why Invest in Indore Grid */
+.invest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.invest-card {
+  padding: 2.5rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-white);
+  border: 1px solid rgba(15, 76, 58, 0.03);
+  transition: var(--transition-luxury);
+}
+
+.invest-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-luxury);
+  border-color: rgba(200, 155, 60, 0.25);
+}
+
+.invest-icon {
+  color: var(--color-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.invest-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  color: var(--color-primary);
+}
+
+/* Split-Screen Materials Section */
+.materials-split-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.materials-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.materials-item-row {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(15, 76, 58, 0.08);
+}
+
+.materials-item-row h4 {
+  font-size: 1.15rem;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.materials-item-row p {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.materials-premium-img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(15, 76, 58, 0.1);
 }
 
 /* Interactive Project Slider Carousel */
@@ -780,7 +910,7 @@ img {
   font-size: 0.8rem;
 }
 
-/* Map illustration positioning */
+/* Map Illustration */
 .indore-svg-map {
   display: block;
   max-height: 400px;
@@ -871,7 +1001,7 @@ img {
   color: #777;
 }
 
-/* Virtual Tour Banner */
+/* Virtual Tour */
 .tour-banner-wrapper {
   display: grid;
   grid-template-columns: 1.25fr 1fr;
@@ -944,41 +1074,60 @@ img {
   letter-spacing: 0.5px;
 }
 
-/* Luxury Lifestyle Section Cards */
-.lifestyle-image-box {
-  height: 240px;
+/* Full-Bleed Lifestyle Blocks */
+.lifestyle-fullbleed-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+}
+
+.lifestyle-item-block {
+  position: relative;
+  height: 460px;
   overflow: hidden;
 }
 
-.lifestyle-image-box img {
+.lifestyle-item-block img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: var(--transition-luxury);
 }
 
-.lifestyle-card:hover .lifestyle-image-box img {
-  transform: scale(1.07);
+.lifestyle-item-block:hover img {
+  transform: scale(1.08);
 }
 
-.lifestyle-body {
-  padding: 2rem;
+.lifestyle-overlay-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(15, 76, 58, 0.95) 0%, rgba(18, 18, 18, 0.25) 100%);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: flex-end;
+  padding: 2.5rem;
+  color: var(--color-white);
+  font-family: var(--font-body);
 }
 
-.lifestyle-body h3 {
-  font-size: 1.3rem;
-  color: var(--color-primary);
+.lifestyle-overlay-content h3 {
+  font-family: var(--font-headings);
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+  color: var(--color-white);
 }
 
-.lifestyle-body p {
+.lifestyle-overlay-content p {
   font-size: 0.85rem;
-  color: #666;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  font-weight: 300;
 }
 
-/* Construction Timeline 7-Node Grid */
+/* 7-Node Horizontal Construction Timeline */
 .timeline-horizontal {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -1283,6 +1432,19 @@ img {
   .tour-visual-box {
     height: 300px;
   }
+  .lifestyle-fullbleed-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .lifestyle-item-block {
+    height: 320px;
+  }
+  .materials-split-wrapper {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .materials-premium-img {
+    height: 320px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1323,5 +1485,24 @@ img {
   }
   .map-illustration-box {
     display: none;
+  }
+  .hero-search-bar-widget {
+    display: none; /* Hide hero search dashboard on mobile devices */
+  }
+  .overlap-composition {
+    height: auto;
+    flex-direction: column;
+  }
+  .overlap-bg-img {
+    width: 100%;
+    height: 250px;
+  }
+  .overlap-fg-card {
+    position: static;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .invest-grid {
+    grid-template-columns: 1fr;
   }
 }

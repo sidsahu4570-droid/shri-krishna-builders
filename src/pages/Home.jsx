@@ -5,7 +5,8 @@ import Calculator from '../components/Calculator';
 import { 
   Building, Calendar, ShieldCheck, Landmark, Compass, Award, 
   MapPin, Play, UserCheck, Star, ChevronLeft, ChevronRight, 
-  ArrowRight, Phone, Clock, FileText, CheckCircle2, Heart 
+  ArrowRight, Phone, Clock, FileText, CheckCircle2, Heart,
+  Shield, CheckCircle, HelpCircle, HardHat, AwardIcon
 } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -25,11 +26,15 @@ export default function Home({ onOpenVisitModal }) {
   const [currentProject, setCurrentProject] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  // References for GSAP
+  // Hero Search States
+  const [searchZone, setSearchZone] = useState('MR-12 Road');
+  const [searchBudget, setSearchBudget] = useState('3.0');
+  const [searchType, setSearchType] = useState('Villa');
+
   const containerRef = useRef(null);
   const heroTextRef = useRef(null);
 
-  // Parallax mouse event handler
+  // Parallax mouse move
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
     const { innerWidth, innerHeight } = window;
@@ -38,7 +43,7 @@ export default function Home({ onOpenVisitModal }) {
     setMousePos({ x, y });
   };
 
-  // Testimonial Navigation
+  // Testimonials Navigation
   const prevTestimonial = () => {
     setActiveTestimonial((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
   };
@@ -46,7 +51,7 @@ export default function Home({ onOpenVisitModal }) {
     setActiveTestimonial((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
   };
 
-  // Projects Carousel Slider
+  // Projects Carousel
   const nextProject = () => {
     setCurrentProject((prev) => (prev + 1 >= projects.length - 2 ? 0 : prev + 1));
   };
@@ -54,23 +59,28 @@ export default function Home({ onOpenVisitModal }) {
     setCurrentProject((prev) => (prev === 0 ? projects.length - 3 : prev - 1));
   };
 
-  // GSAP Entrance Scroll triggers
+  // Search Submit Handler (Frontend only)
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    // Redirect to properties with parameters
+    navigate('/properties');
+  };
+
+  // GSAP animations
   useGSAP(() => {
-    // Hero Text entrance animation
     const heroTl = gsap.timeline();
     heroTl.fromTo('.hero-reveal', 
       { y: 50, opacity: 0 }, 
       { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: 'power4.out' }
     );
     heroTl.fromTo('.hero-stats-fade', 
-      { opacity: 0, scale: 0.9 }, 
-      { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.5)' },
+      { opacity: 0, scale: 0.95 }, 
+      { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.2)' },
       '-=0.4'
     );
 
-    // Scroll reveals
-    const sections = gsap.utils.toArray('.reveal-on-scroll');
-    sections.forEach((sec) => {
+    // Scroll Trigger reveals
+    gsap.utils.toArray('.reveal-on-scroll').forEach((sec) => {
       gsap.fromTo(sec, 
         { y: 50, opacity: 0 },
         {
@@ -85,23 +95,13 @@ export default function Home({ onOpenVisitModal }) {
         }
       );
     });
-
   }, { scope: containerRef });
-
-  const mapPins = [
-    { id: 1, name: 'Kanak Smart City', x: '45%', y: '40%', type: 'Township', path: '/projects' },
-    { id: 2, name: 'Krishna Aura Villas', x: '35%', y: '48%', type: 'Villas', path: '/properties/villa-krishna-aura' },
-    { id: 3, name: 'Krishna Heights Penthouse', x: '58%', y: '32%', type: 'Apartments', path: '/properties/apartments-krishna-heights' },
-    { id: 4, name: 'Shri Nivas Bungalows', x: '42%', y: '55%', type: 'Bungalows', path: '/properties/bungalow-shri-nivas' },
-    { id: 5, name: 'Krishna Royal Plaza', x: '63%', y: '52%', type: 'Commercial', path: '/properties/villa-royal-arcade' }
-  ];
 
   return (
     <div ref={containerRef} className="home-page-container">
       
       {/* 1. HERO SECTION */}
       <section className="hero-section" onMouseMove={handleMouseMove}>
-        {/* Cinematic zoom background image */}
         <div className="hero-bg-zoom"></div>
         <div className="hero-overlay"></div>
 
@@ -114,13 +114,62 @@ export default function Home({ onOpenVisitModal }) {
             <p className="hero-subheading hero-reveal">
               Shri Krishna Builder's & Developers creates luxurious villas, premium bungalows, residential projects and investment opportunities that redefine modern living.
             </p>
-            <div className="hero-buttons hero-reveal">
-              <Link to="/properties" className="btn btn-secondary">Explore Projects</Link>
-              <button onClick={onOpenVisitModal} className="btn btn-outline">Schedule Site Visit</button>
-            </div>
+            
+            {/* Custom Interactive Property Search Panel */}
+            <form onSubmit={handleSearchSubmit} className="hero-search-bar-widget glass-panel hero-reveal">
+              <div className="hero-search-field">
+                <label>Corridor Zone</label>
+                <select 
+                  value={searchZone} 
+                  onChange={(e) => setSearchZone(e.target.value)}
+                  className="hero-search-select"
+                >
+                  <option value="MR-12 Road">MR-12 Road (Aurobindo)</option>
+                  <option value="Super Corridor">Super Corridor</option>
+                  <option value="Bypass Road">Bypass Corridor</option>
+                  <option value="Kanak Smart City">Kanak Smart City</option>
+                </select>
+              </div>
+
+              <div className="hero-search-divider"></div>
+
+              <div className="hero-search-field">
+                <label>Budget Limit</label>
+                <select 
+                  value={searchBudget} 
+                  onChange={(e) => setSearchBudget(e.target.value)}
+                  className="hero-search-select"
+                >
+                  <option value="1.5">Under ₹1.5 Crore</option>
+                  <option value="3.0">₹1.5 - ₹3.0 Crore</option>
+                  <option value="5.0">₹3.0 - ₹5.0 Crore</option>
+                  <option value="any">Any Budget</option>
+                </select>
+              </div>
+
+              <div className="hero-search-divider"></div>
+
+              <div className="hero-search-field">
+                <label>Property Type</label>
+                <select 
+                  value={searchType} 
+                  onChange={(e) => setSearchType(e.target.value)}
+                  className="hero-search-select"
+                >
+                  <option value="Villa">Luxury Villa</option>
+                  <option value="Bungalow">Bungalow</option>
+                  <option value="Apartment">Apartment Suite</option>
+                  <option value="Farm House">Farm House Plot</option>
+                </select>
+              </div>
+
+              <button type="submit" className="btn btn-secondary" style={{ padding: '12px 24px' }}>
+                Search
+              </button>
+            </form>
           </div>
 
-          {/* Floating statistics cards with Mouse Parallax */}
+          {/* Floating statistics cards with Parallax */}
           <div className="hero-stats-grid hero-stats-fade" style={{
             transform: `translate3d(${mousePos.x * 0.4}px, ${mousePos.y * 0.4}px, 0)`,
             transition: 'transform 0.2s ease-out'
@@ -179,22 +228,29 @@ export default function Home({ onOpenVisitModal }) {
         </div>
       </section>
 
-      {/* 3. ABOUT HIGHLIGHTS */}
+      {/* 3. ASYMMETRICAL ABOUT COMPOSITION */}
       <section className="section about-highlights-section">
         <div className="container grid-2">
-          <div className="about-visual reveal-on-scroll">
+          
+          {/* Overlapping offset image boxes */}
+          <div className="overlap-composition reveal-on-scroll">
             <img 
               src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" 
-              alt="Premium Bungalow Architecture" 
-              className="about-premium-img zoom-hover-target" 
+              alt="Premium Villa elevation framing" 
+              className="overlap-bg-img" 
             />
-            <div className="about-floating-experience-badge glass-panel">
-              <span className="badge-years">15+</span>
-              <span className="badge-text">Years of Building Landmarks</span>
+            <div className="overlap-fg-card glass-panel">
+              <div className="about-floating-experience-badge">
+                <span className="badge-years">15+</span>
+                <span className="badge-text">Years of Building trust Landmarks</span>
+              </div>
+              <p style={{ fontSize: '0.8rem', marginTop: '10px', color: '#555' }}>
+                We design environments where architectural details, green space coordinates, and concrete safety standards merge.
+              </p>
             </div>
           </div>
 
-          <div className="about-text-content reveal-on-scroll">
+          <div className="about-text-content reveal-on-scroll" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <span className="subtitle-premium">Legacy of Elegance</span>
             <h2 className="title-luxury">Building Trust. Creating Landmarks.</h2>
             <p style={{ marginBottom: '1.5rem', lineHeight: '1.8' }}>
@@ -219,9 +275,40 @@ export default function Home({ onOpenVisitModal }) {
                 </div>
               </div>
             </div>
-            <Link to="/about" className="btn btn-primary" style={{ marginTop: '2rem' }}>
+            <Link to="/about" className="btn btn-primary" style={{ marginTop: '2rem', width: 'fit-content' }}>
               Discover Our History
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 3.5. WHY INVEST IN INDORE (Asymmetric grids storytelling) */}
+      <section className="section why-invest-section" style={{ backgroundColor: '#f6f2eb', borderTop: '1px solid rgba(200, 155, 60, 0.15)', borderBottom: '1px solid rgba(200, 155, 60, 0.15)' }}>
+        <div className="container">
+          <div className="showcase-header reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <span className="subtitle-premium">GROWTH CAPITALS</span>
+            <h2 className="title-luxury title-luxury-center">Why Invest in Indore Corridor?</h2>
+            <p style={{ maxWidth: '600px', margin: '0 auto' }}>
+              Indore ranks as India's cleaner city champion and is central India's fastest expanding economic hub.
+            </p>
+          </div>
+
+          <div className="invest-grid reveal-on-scroll">
+            <div className="invest-card">
+              <Shield className="invest-icon" size={32} />
+              <h3>Cleaner City Leader</h3>
+              <p>Ranked #1 cleanest city in India 7 times consecutively. Excellent municipal infrastructure, low air pollution indexes, and beautiful landscape gardens.</p>
+            </div>
+            <div className="invest-card">
+              <Landmark className="invest-icon" size={32} />
+              <h3>Mega Tech Hub expansions</h3>
+              <p>Hosts TCS & Infosys corporate campuses. Rapid workforce migration drives massive annual double-digit rental appreciation near MR-12 Road.</p>
+            </div>
+            <div className="invest-card">
+              <Compass className="invest-icon" size={32} />
+              <h3>Indore Metro Rail Corridor</h3>
+              <p>Direct transit nodes connecting our townships to Vijay Nagar shopping hubs and the international airport, ensuring guaranteed asset liquidity.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -400,82 +487,73 @@ export default function Home({ onOpenVisitModal }) {
         </div>
       </section>
 
-      {/* 6.5. LUXURY LIFESTYLE SECTION */}
-      <section className="section lifestyle-section" style={{ backgroundColor: '#FAF8F5' }}>
-        <div className="container">
-          <div className="showcase-header reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '4rem' }}>
-            <span className="subtitle-premium">EXQUISITE LIVING</span>
-            <h2 className="title-luxury title-luxury-center">The Luxury Lifestyle Experience</h2>
-            <p style={{ maxWidth: '600px', margin: '0 auto' }}>
-              We build residential sanctuaries designed around premium amenities, green ecological parks, and state-of-the-art social infrastructures in Indore.
+      {/* 6.3. PREMIUM MATERIALS & ENGINEERING SPLIT-SCREEN */}
+      <section className="section materials-craft-section" style={{ borderBottom: '1px solid rgba(200, 155, 60, 0.15)' }}>
+        <div className="container materials-split-wrapper reveal-on-scroll">
+          <div className="materials-text-col">
+            <span className="subtitle-premium">ENGINEERING EXCELLENCE</span>
+            <h2 className="title-luxury">Premium Materials & Craftsmanship</h2>
+            <p style={{ marginBottom: '2rem' }}>
+              We believe structural safety forms the foundation of luxury. Every column is reinforced with high-strength concrete to assure timeless durability.
             </p>
+
+            <div className="materials-detail-list">
+              <div className="materials-item-row">
+                <h4>M25 - M35 Structural Concrete</h4>
+                <p>Mixed and poured using certified ready-mix processes, offering standard high seismic protections to our duplex and penthouse buildings.</p>
+              </div>
+              <div className="materials-item-row">
+                <h4>Corrosion-Free TMT Steel Reinforcement</h4>
+                <p>Heavy-duty anti-corrosive coated iron structural steel rods protecting foundations against moisture seepage and cracks.</p>
+              </div>
+              <div className="materials-item-row">
+                <h4>Kohler Premium Bath Fittings</h4>
+                <p>Installed standard across all luxury master bathrooms, offering sleek modular design and low maintenance costs.</p>
+              </div>
+            </div>
           </div>
 
-          <div className="grid-3 reveal-on-scroll">
-            {/* Amenity 1 */}
-            <div className="card-premium lifestyle-card">
-              <div className="lifestyle-image-box">
-                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80" alt="Private Clubhouse" />
-              </div>
-              <div className="lifestyle-body">
-                <h3>Private Elite Clubhouse</h3>
-                <p>An exclusive 15,000 Sq.Ft. wellness lounge featuring high-end gym equipment, private event halls, and gourmet business cafés.</p>
-              </div>
-            </div>
+          <div className="materials-image-col">
+            <img 
+              src="https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=800&q=80" 
+              alt="High quality steel construction framing details" 
+              className="materials-premium-img"
+            />
+          </div>
+        </div>
+      </section>
 
-            {/* Amenity 2 */}
-            <div className="card-premium lifestyle-card">
-              <div className="lifestyle-image-box">
-                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80" alt="Infinity Pool" />
-              </div>
-              <div className="lifestyle-body">
-                <h3>Infinity Swimming Pool</h3>
-                <p>Heated lap pool with luxury timber decks, children's wading splash areas, and standard cabanas set within green arrays.</p>
-              </div>
+      {/* 6.5. FULL-BLEED LUXURY LIFESTYLE SECTION */}
+      <section className="lifestyle-section" style={{ borderBottom: '1px solid rgba(200, 155, 60, 0.15)' }}>
+        {/* Full-width container with no margins, edge-to-edge layout */}
+        <div className="lifestyle-fullbleed-wrapper reveal-on-scroll">
+          {/* Block 1 */}
+          <div className="lifestyle-item-block">
+            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80" alt="Clubhouse lounge" />
+            <div className="lifestyle-overlay-content">
+              <span className="subtitle-premium">RECREATION</span>
+              <h3>Private Elite Clubhouse</h3>
+              <p>An exclusive wellness lounge reserved for residents, equipped with high-end gym equipment and gourmet coffee decks.</p>
             </div>
+          </div>
 
-            {/* Amenity 3 */}
-            <div className="card-premium lifestyle-card">
-              <div className="lifestyle-image-box">
-                <img src="https://images.unsplash.com/photo-1524813686514-a57563d77d61?auto=format&fit=crop&w=800&q=80" alt="Landscaped Gardens" />
-              </div>
-              <div className="lifestyle-body">
-                <h3>Landscaped Botanic Gardens</h3>
-                <p>Manicured avenues, themed floral gardens, and walking pathways designed by botanists for pure serene air quality.</p>
-              </div>
+          {/* Block 2 */}
+          <div className="lifestyle-item-block">
+            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80" alt="Infinity Swimming pool" />
+            <div className="lifestyle-overlay-content">
+              <span className="subtitle-premium">WELLNESS</span>
+              <h3>Infinity Edge Pool</h3>
+              <p>A heated infinity pool with standard luxury sunbeds and poolside garden landscaping.</p>
             </div>
+          </div>
 
-            {/* Amenity 4 */}
-            <div className="card-premium lifestyle-card">
-              <div className="lifestyle-image-box">
-                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80" alt="Smart Home living" />
-              </div>
-              <div className="lifestyle-body">
-                <h3>Smart Touchscreen Living</h3>
-                <p>Automated lighting, biometric locks, video doorbell arrays, and remote phone app control systems built natively.</p>
-              </div>
-            </div>
-
-            {/* Amenity 5 */}
-            <div className="card-premium lifestyle-card">
-              <div className="lifestyle-image-box">
-                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80" alt="Children's play garden" />
-              </div>
-              <div className="lifestyle-body">
-                <h3>Children's Recreational Park</h3>
-                <p>Equipped play parks with rubber flooring, standard swings, climbing domes, and absolute secure perimeter protections.</p>
-              </div>
-            </div>
-
-            {/* Amenity 6 */}
-            <div className="card-premium lifestyle-card">
-              <div className="lifestyle-image-box">
-                <img src="https://images.unsplash.com/photo-1506974210756-8e1b8985d348?auto=format&fit=crop&w=800&q=80" alt="40ft wide internal concrete roads" />
-              </div>
-              <div className="lifestyle-body">
-                <h3>40ft Wide Internal Avenues</h3>
-                <p>Broad, tree-lined asphalt avenues with structural underground utilities (electricity, fiber-optics, water drains).</p>
-              </div>
+          {/* Block 3 */}
+          <div className="lifestyle-item-block">
+            <img src="https://images.unsplash.com/photo-1524813686514-a57563d77d61?auto=format&fit=crop&w=800&q=80" alt="Botanical landscaped garden path" />
+            <div className="lifestyle-overlay-content">
+              <span className="subtitle-premium">BIOPHILIA</span>
+              <h3>Landscaped Gardens</h3>
+              <p>Manicured green avenues, themed parks, and walking pathways designed by botanists for pure air quality.</p>
             </div>
           </div>
         </div>
@@ -495,7 +573,6 @@ export default function Home({ onOpenVisitModal }) {
           <div className="timeline-horizontal reveal-on-scroll">
             <div className="timeline-line"></div>
             
-            {/* Step 1 */}
             <div className="timeline-node">
               <div className="node-circle">1</div>
               <div className="node-content-box">
@@ -504,7 +581,6 @@ export default function Home({ onOpenVisitModal }) {
               </div>
             </div>
 
-            {/* Step 2 */}
             <div className="timeline-node">
               <div className="node-circle">2</div>
               <div className="node-content-box">
@@ -513,7 +589,6 @@ export default function Home({ onOpenVisitModal }) {
               </div>
             </div>
 
-            {/* Step 3 */}
             <div className="timeline-node">
               <div className="node-circle">3</div>
               <div className="node-content-box">
@@ -522,7 +597,6 @@ export default function Home({ onOpenVisitModal }) {
               </div>
             </div>
 
-            {/* Step 4 */}
             <div className="timeline-node">
               <div className="node-circle">4</div>
               <div className="node-content-box">
@@ -531,7 +605,6 @@ export default function Home({ onOpenVisitModal }) {
               </div>
             </div>
 
-            {/* Step 5 */}
             <div className="timeline-node">
               <div className="node-circle">5</div>
               <div className="node-content-box">
@@ -540,7 +613,6 @@ export default function Home({ onOpenVisitModal }) {
               </div>
             </div>
 
-            {/* Step 6 */}
             <div className="timeline-node">
               <div className="node-circle">6</div>
               <div className="node-content-box">
@@ -549,7 +621,6 @@ export default function Home({ onOpenVisitModal }) {
               </div>
             </div>
 
-            {/* Step 7 */}
             <div className="timeline-node">
               <div className="node-circle">7</div>
               <div className="node-content-box">
@@ -562,7 +633,7 @@ export default function Home({ onOpenVisitModal }) {
       </section>
 
       {/* 8. INVESTMENT & EMI CALCULATOR SECTION */}
-      <section className="section calculator-section" style={{ backgroundColor: '#FAF8F5' }}>
+      <section className="section calculator-section" style={{ backgroundColor: '#FAF8F5', borderTop: '1px solid rgba(200, 155, 60, 0.15)' }}>
         <div className="container">
           <div className="showcase-header reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <span className="subtitle-premium">Financial Clarity</span>
@@ -587,7 +658,6 @@ export default function Home({ onOpenVisitModal }) {
               What Verified Homeowners Say
             </h2>
 
-            {/* Slider Content */}
             <div className="testimonial-slider-container">
               <div className="testimonial-slider-card glass-panel-dark">
                 <div className="stars-row">
@@ -611,7 +681,6 @@ export default function Home({ onOpenVisitModal }) {
                 </div>
               </div>
 
-              {/* Slider Controls */}
               <div className="slider-navigation-btns">
                 <button onClick={prevTestimonial} className="slider-btn" aria-label="Previous testimonial">
                   <ChevronLeft size={20} />
