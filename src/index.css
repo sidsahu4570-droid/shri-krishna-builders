@@ -681,7 +681,7 @@ img {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(15px);
+  transform: translateX(-50%) translateY(10px);
   width: 230px;
   background: rgba(27, 27, 27, 0.85); /* Darker backing to ensure text contrast */
   backdrop-filter: blur(20px);
@@ -696,15 +696,31 @@ img {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  z-index: 1000;
+  z-index: 1050;
+  transition: opacity 0.25s cubic-bezier(0.25, 1, 0.3, 1), 
+              transform 0.25s cubic-bezier(0.25, 1, 0.3, 1), 
+              visibility 0.25s ease;
+  transition-delay: 0.18s; /* 180ms close delay so quick mouse movements do not reset state */
+}
+
+/* Invisible bridge overlay to ensure continuous hover connection */
+.dropdown-menu-panel::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background: transparent;
+  pointer-events: auto;
 }
 
 .dropdown-trigger:hover .dropdown-menu-panel {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(5px);
+  transform: translateX(-50%) translateY(2px);
+  transition-delay: 0s; /* Open immediately on hover entry */
 }
 
 .dropdown-item-link {
