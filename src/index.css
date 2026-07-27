@@ -2665,6 +2665,12 @@ img {
     justify-content: center !important;
     box-sizing: border-box !important;
   }
+
+  /* Investment Guide Small Stats Cards stack on mobile */
+  .stats-row-small {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
 }
 
 /* ==========================================================================
