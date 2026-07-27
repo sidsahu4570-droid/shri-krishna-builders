@@ -41,9 +41,9 @@ export default function Navbar({ onOpenVisitModal }) {
     <div className="navbar-fixed-wrapper">
       <header
         className={`navbar-fixed ${
-          isScrolled 
-            ? 'navbar-glass' 
-            : 'navbar-transparent'
+          isHome && !isScrolled 
+            ? 'navbar-transparent' 
+            : 'navbar-glass'
         }`}
       >
       <div className="navbar-container">

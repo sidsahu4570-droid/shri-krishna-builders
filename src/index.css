@@ -406,10 +406,18 @@ img {
 }
 
 .navbar-transparent {
-  background-color: transparent !important;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%) !important;
   border-color: transparent !important;
   box-shadow: none !important;
   color: var(--color-white) !important;
+}
+
+.navbar-transparent .navbar-logo,
+.navbar-transparent .logo-title,
+.navbar-transparent .logo-subtitle,
+.navbar-transparent .nav-link-item,
+.navbar-transparent .mobile-menu-toggle {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
 .navbar-solid {
@@ -2156,21 +2164,23 @@ img {
   }
   
   .navbar-fixed.navbar-transparent {
-    background-color: transparent !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
-    color: var(--color-white) !important;
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(30, 30, 30, 0.06) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+    color: var(--color-primary) !important;
   }
   
   .navbar-fixed.navbar-transparent .navbar-logo,
   .navbar-fixed.navbar-transparent .logo-title {
-    color: var(--color-white) !important;
+    color: var(--color-primary) !important;
   }
   .navbar-fixed.navbar-transparent .nav-link-item {
-    color: rgba(255, 255, 255, 0.85) !important;
+    color: rgba(30, 30, 30, 0.85) !important;
   }
   .navbar-fixed.navbar-transparent .mobile-menu-toggle {
-    color: var(--color-white) !important;
+    color: var(--color-primary) !important;
     min-height: 48px !important;
     min-width: 48px !important;
     display: flex !important;
