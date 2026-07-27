@@ -4,9 +4,9 @@ import { useProperties } from '../context/PropertyContext';
 import { MapPin, Compass, Building, Layers, ArrowRight } from 'lucide-react';
 
 const projectToPropertyMap = {
-  'kanak-smart-city': 'bungalow-solitaire',
+  'kanak-smart-city': 'kanak-smart-city',
   'krishna-aura-estates': 'villa-krishna-aura',
-  'shri-nivas-villas': 'bungalow-shri-nivas',
+  'shri-nivas-villas': 'shri-nivas-enclave',
   'krishna-royal-commercial': 'villa-royal-arcade',
   'krishna-upvan': 'farm-krishna-upvan'
 };

@@ -13,6 +13,14 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const projectLinkMap = {
+  'kanak-smart-city': '/properties/kanak-smart-city',
+  'krishna-aura-estates': '/properties/villa-krishna-aura',
+  'shri-nivas-villas': '/properties/shri-nivas-enclave',
+  'krishna-royal-commercial': '/properties/villa-royal-arcade',
+  'krishna-upvan': '/properties/farm-krishna-upvan'
+};
+
 export default function Home({ onOpenVisitModal }) {
   const { properties, projects, testimonials, faqs, blogs } = useProperties();
   const navigate = useNavigate();
@@ -374,7 +382,7 @@ export default function Home({ onOpenVisitModal }) {
                       <span><strong>Size:</strong> {proj.size}</span>
                       <span><strong>Volume:</strong> {proj.units}</span>
                     </div>
-                    <Link to="/projects" className="btn btn-outline btn-card-arrow">
+                    <Link to={projectLinkMap[proj.id] || `/properties/${proj.id}`} className="btn btn-outline btn-card-arrow">
                       <span>Explore Project Details</span>
                       <ArrowRight size={16} />
                     </Link>

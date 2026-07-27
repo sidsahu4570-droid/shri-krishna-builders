@@ -13,7 +13,19 @@ import {
 export default function PropertyDetails() {
   const { id } = useParams();
   const { properties } = useProperties();
-  const property = properties.find((p) => p.id === id);
+
+  // Project ID to Property ID Aliasing Map
+  const idAliasMap = {
+    'kanak-smart-city': 'bungalow-solitaire',
+    'shri-nivas-enclave': 'bungalow-shri-nivas',
+    'shri-nivas-villas': 'bungalow-shri-nivas',
+    'krishna-aura-estates': 'villa-krishna-aura',
+    'krishna-royal-commercial': 'villa-royal-arcade',
+    'krishna-upvan': 'farm-krishna-upvan'
+  };
+
+  const resolvedId = idAliasMap[id] || id;
+  const property = properties.find((p) => p.id === resolvedId);
 
   // Mobile viewport tracking state
   const [isMobile, setIsMobile] = useState(false);
