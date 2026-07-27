@@ -245,16 +245,84 @@ const styleTag = (
       line-height: 1.5;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      .single-blog-page .container {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        box-sizing: border-box !important;
+      }
+      
+      .article-meta-info {
+        flex-wrap: wrap !important;
+        gap: 10px 16px !important;
+        padding: 10px 0 !important;
+      }
+
       .article-title {
-        font-size: 1.75rem;
+        font-size: 1.85rem !important;
+        line-height: 1.3 !important;
+        margin-bottom: 1rem !important;
       }
+      
       .article-featured-image {
-        height: 250px;
+        height: auto !important;
+        aspect-ratio: 16/10 !important;
+        margin-bottom: 2rem !important;
+        border-radius: 12px !important;
       }
+
+      .blog-body-paragraph {
+        font-size: 0.95rem !important;
+        line-height: 1.75 !important;
+        margin-bottom: 1.25rem !important;
+      }
+
+      .blog-body-subheading {
+        font-size: 1.3rem !important;
+        margin: 2rem 0 0.75rem 0 !important;
+        line-height: 1.35 !important;
+      }
+
+      .blog-body-list {
+        margin: 1rem 0 1.25rem 1.25rem !important;
+        gap: 6px !important;
+      }
+
+      .blog-body-list li {
+        font-size: 0.9rem !important;
+        line-height: 1.55 !important;
+      }
+
       .article-author-card {
-        flex-direction: column;
-        text-align: center;
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 1.5rem !important;
+        gap: 16px !important;
+      }
+      
+      /* Prevent horizontal assets/outlines from causing viewport overflow */
+      .single-blog-page img,
+      .single-blog-page iframe,
+      .single-blog-page table,
+      .single-blog-page pre,
+      .single-blog-page code {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      blockquote {
+        border-left: 3px solid var(--color-secondary) !important;
+        padding-left: 16px !important;
+        margin: 1.5rem 0 !important;
+        font-style: italic !important;
+        color: #555 !important;
+      }
+
+      table {
+        display: block !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
       }
     }
   `}</style>
