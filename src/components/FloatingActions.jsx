@@ -48,16 +48,6 @@ export default function FloatingActions({ showVisitModal, onToggleVisitModal }) 
   return (
     <>
       <div className="floating-bar">
-        {/* Site Visit Trigger */}
-        <button
-          onClick={onToggleVisitModal}
-          className="floating-btn btn-visit-schedule"
-          aria-label="Schedule site visit"
-        >
-          <Calendar size={20} className="pulse-icon" />
-          <span className="btn-tooltip">Book Site Visit</span>
-        </button>
-
         {/* WhatsApp Button */}
         <a
           href="https://wa.me/919644699206?text=Hello!%20I%20am%20interested%20in%20learning%20more%20about%20your%20luxury%20real%20estate%20projects."
