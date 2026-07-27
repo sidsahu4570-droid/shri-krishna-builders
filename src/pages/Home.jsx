@@ -221,35 +221,6 @@ export default function Home({ onOpenVisitModal }) {
         </div>
       </section>
 
-      {/* 2. TRUST STRIP (Partner Logos) */}
-      <section className="trust-strip-section">
-        <div className="container trust-container">
-          <span className="trust-title">TRUSTED & COMPLIANT WITH</span>
-          <div className="trust-logos">
-            <div className="trust-logo-item">
-              <ShieldCheck className="trust-icon" />
-              <span>MP-RERA REGISTERED</span>
-            </div>
-            <div className="trust-logo-item">
-              <Landmark className="trust-icon" />
-              <span>SBI PRE-APPROVED</span>
-            </div>
-            <div className="trust-logo-item">
-              <Compass className="trust-icon" />
-              <span>VAASTU COMPLIANT</span>
-            </div>
-            <div className="trust-logo-item">
-              <Building className="trust-icon" />
-              <span>CREDAI MEMBER</span>
-            </div>
-            <div className="trust-logo-item">
-              <Award className="trust-icon" />
-              <span>ISO 9001:2015 CERTIFIED</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 3. ASYMMETRICAL ABOUT COMPOSITION */}
       <section className="section about-highlights-section">
         <div className="container grid-2">

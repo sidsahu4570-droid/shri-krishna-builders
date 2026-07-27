@@ -223,15 +223,6 @@ export default function PropertyDetails() {
                   <img src={property.image} alt="Video Thumbnail" />
                 </div>
               )}
-              {mediaMode === '360' && (
-                <div className="virtual-360-simulation">
-                  <div className="simulation-overlay">
-                    <Sparkles size={48} className="spin-slow" />
-                    <span>Explore 360° Interactive Virtual Tour</span>
-                  </div>
-                  <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80" alt="360 View" />
-                </div>
-              )}
 
               {/* Media Controls Bar */}
               <div className="media-selector-tabs">
@@ -248,13 +239,6 @@ export default function PropertyDetails() {
                 >
                   <Play size={14} />
                   <span>Play Video</span>
-                </button>
-                <button 
-                  onClick={() => setMediaMode('360')} 
-                  className={`media-tab ${mediaMode === '360' ? 'active' : ''}`}
-                >
-                  <Compass size={14} />
-                  <span>360° Tour</span>
                 </button>
               </div>
             </div>
@@ -1931,18 +1915,18 @@ const styleTag = (
       justify-content: space-between;
       align-items: center;
       padding: 10px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(30, 30, 30, 0.08);
       font-size: 0.9rem;
     }
 
     .calc-price-readout strong {
-      color: var(--color-white);
+      color: var(--color-primary);
       font-weight: 700;
     }
 
     .calc-price-readout.select-amount-row {
       margin-top: 10px;
-      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+      border-top: 1px dashed rgba(30, 30, 30, 0.08);
       border-bottom: none;
     }
 
