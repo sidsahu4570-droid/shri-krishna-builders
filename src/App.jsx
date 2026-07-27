@@ -7,6 +7,7 @@ import { Building } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloatingActions from './components/FloatingActions';
+import ScrollToTop from './components/ScrollToTop';
 
 // Pages
 import Home from './pages/Home';
@@ -31,6 +32,13 @@ import Careers from './pages/Careers';
 function App() {
   const [showVisitModal, setShowVisitModal] = useState(false);
 
+  // Disable default browser scroll restoration so manual positioning takes precedence
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   const toggleVisitModal = () => {
     setShowVisitModal((prev) => !prev);
   };
@@ -39,6 +47,7 @@ function App() {
     <PropertyProvider>
 
       <Router>
+        <ScrollToTop />
         <div className="app-layout">
           {/* Navbar with modal click launcher */}
           <Navbar onOpenVisitModal={toggleVisitModal} />
