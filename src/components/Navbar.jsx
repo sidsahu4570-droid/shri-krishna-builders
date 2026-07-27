@@ -5,6 +5,7 @@ import { Menu, X, Building, ChevronDown } from 'lucide-react';
 export default function Navbar({ onOpenVisitModal }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeMobileSubmenu, setActiveMobileSubmenu] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -22,8 +23,17 @@ export default function Navbar({ onOpenVisitModal }) {
   // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setActiveMobileSubmenu(null);
     window.scrollTo(0, 0);
   }, [location]);
+
+  const toggleMobileSubmenu = (menu) => {
+    if (activeMobileSubmenu === menu) {
+      setActiveMobileSubmenu(null);
+    } else {
+      setActiveMobileSubmenu(menu);
+    }
+  };
 
   const isHome = location.pathname === '/';
 
@@ -79,7 +89,7 @@ export default function Navbar({ onOpenVisitModal }) {
             </div>
           </div>
 
-          {/* Company Dropdown (Consolidated) */}
+          {/* Company Dropdown */}
           <div className="nav-link-item dropdown-trigger">
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'default' }}>
               Company <ChevronDown size={12} />
@@ -100,7 +110,7 @@ export default function Navbar({ onOpenVisitModal }) {
             Gallery
           </Link>
 
-          {/* Resources Dropdown (Consolidated) */}
+          {/* Resources Dropdown */}
           <div className="nav-link-item dropdown-trigger">
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'default' }}>
               Resources <ChevronDown size={12} />
@@ -130,20 +140,79 @@ export default function Navbar({ onOpenVisitModal }) {
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown Panel */}
+      {/* Mobile Menu Slide-in Drawer with Glassmorphism */}
       <div className={`mobile-menu-dropdown ${isMobileMenuOpen ? 'open' : ''}`}>
+        <button 
+          className="mobile-menu-close-btn"
+          onClick={() => setIsMobileMenuOpen(false)}
+          aria-label="Close menu"
+        >
+          <X size={28} />
+        </button>
+
         <div className="mobile-menu-links">
-          <Link to="/" className="mobile-link-item">Home</Link>
-          <Link to="/about" className="mobile-link-item">About Company</Link>
-          <Link to="/projects" className="mobile-link-item">Our Projects</Link>
-          <Link to="/properties" className="mobile-link-item">Properties Catalog</Link>
-          <Link to="/services" className="mobile-link-item">Services</Link>
-          <Link to="/gallery" className="mobile-link-item">Gallery</Link>
-          <Link to="/why-choose-us" className="mobile-link-item">Why Choose Us</Link>
-          <Link to="/investment-guide" className="mobile-link-item">Investment Guide</Link>
-          <Link to="/blogs" className="mobile-link-item">Blogs</Link>
-          <Link to="/careers" className="mobile-link-item">Careers</Link>
-          <Link to="/contact" className="mobile-link-item mobile-contact-link">Contact</Link>
+          <Link to="/" className="mobile-link-item" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+
+          {/* Projects Mobile Accordion */}
+          <div className="mobile-accordion-item">
+            <button className="mobile-accordion-trigger" onClick={() => toggleMobileSubmenu('projects')}>
+              <span>Projects</span>
+              <ChevronDown size={16} className={`accordion-chevron ${activeMobileSubmenu === 'projects' ? 'rotate-180' : ''}`} />
+            </button>
+            <div className={`mobile-accordion-panel ${activeMobileSubmenu === 'projects' ? 'open' : ''}`}>
+              <Link to="/projects" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Residential Sector</Link>
+              <Link to="/projects" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Premium Villas</Link>
+              <Link to="/projects" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Luxury Bungalows</Link>
+              <Link to="/projects" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Commercial Plazas</Link>
+            </div>
+          </div>
+
+          {/* Properties Mobile Accordion */}
+          <div className="mobile-accordion-item">
+            <button className="mobile-accordion-trigger" onClick={() => toggleMobileSubmenu('properties')}>
+              <span>Properties</span>
+              <ChevronDown size={16} className={`accordion-chevron ${activeMobileSubmenu === 'properties' ? 'rotate-180' : ''}`} />
+            </button>
+            <div className={`mobile-accordion-panel ${activeMobileSubmenu === 'properties' ? 'open' : ''}`}>
+              <Link to="/properties" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Ready to Move</Link>
+              <Link to="/properties" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Under Construction</Link>
+              <Link to="/properties" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Premium Estates</Link>
+              <Link to="/properties" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Appreciation Plots</Link>
+            </div>
+          </div>
+
+          {/* Company Mobile Accordion */}
+          <div className="mobile-accordion-item">
+            <button className="mobile-accordion-trigger" onClick={() => toggleMobileSubmenu('company')}>
+              <span>Company</span>
+              <ChevronDown size={16} className={`accordion-chevron ${activeMobileSubmenu === 'company' ? 'rotate-180' : ''}`} />
+            </button>
+            <div className={`mobile-accordion-panel ${activeMobileSubmenu === 'company' ? 'open' : ''}`}>
+              <Link to="/about" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
+              <Link to="/why-choose-us" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Why Choose Us</Link>
+              <Link to="/careers" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Careers</Link>
+              <Link to="/testimonials" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Testimonials</Link>
+            </div>
+          </div>
+
+          <Link to="/services" className="mobile-link-item" onClick={() => setIsMobileMenuOpen(false)}>Services</Link>
+          <Link to="/gallery" className="mobile-link-item" onClick={() => setIsMobileMenuOpen(false)}>Gallery</Link>
+
+          {/* Resources Mobile Accordion */}
+          <div className="mobile-accordion-item">
+            <button className="mobile-accordion-trigger" onClick={() => toggleMobileSubmenu('resources')}>
+              <span>Resources</span>
+              <ChevronDown size={16} className={`accordion-chevron ${activeMobileSubmenu === 'resources' ? 'rotate-180' : ''}`} />
+            </button>
+            <div className={`mobile-accordion-panel ${activeMobileSubmenu === 'resources' ? 'open' : ''}`}>
+              <Link to="/investment-guide" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Investment Guide</Link>
+              <Link to="/blogs" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Blogs & Updates</Link>
+              <Link to="/faqs" className="mobile-sublink-item" onClick={() => setIsMobileMenuOpen(false)}>Frequently Asked FAQs</Link>
+            </div>
+          </div>
+
+          <Link to="/contact" className="mobile-link-item mobile-contact-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
+          
           <button 
             className="btn btn-secondary mobile-visit-btn"
             onClick={() => {
