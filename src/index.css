@@ -2469,17 +2469,20 @@ img {
   .timeline-horizontal {
     display: flex !important;
     flex-direction: column !important;
-    gap: 2rem !important;
+    gap: 2.5rem !important;
     padding-top: 0 !important;
     position: relative !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .timeline-line {
     display: block !important;
     position: absolute !important;
-    top: 24px !important;
-    bottom: 24px !important;
-    left: 19px !important; /* Center alignment with 38px circle */
+    top: 40px !important;
+    bottom: 40px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     width: 2px !important;
     height: auto !important;
     background-color: rgba(200, 164, 93, 0.25) !important;
@@ -2488,9 +2491,9 @@ img {
 
   .timeline-node {
     display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    gap: 1.25rem !important;
+    flex-direction: column-reverse !important;
+    align-items: center !important;
+    gap: 2.5rem !important;
     width: 100% !important;
     position: relative !important;
     z-index: 2 !important;
