@@ -2136,9 +2136,9 @@ img {
     padding: 12px 16px !important;
   }
 
-  /* Mobile Sticky Navbar Height & Offsets */
+  /* Mobile Sticky/Fixed Navbar Height & Offsets */
   .navbar-fixed {
-    position: sticky !important;
+    position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     transform: none !important;
@@ -2146,28 +2146,60 @@ img {
     height: 72px !important;
     border-radius: 0 !important;
     border: none !important;
-    background-color: rgba(255, 255, 255, 0.98) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
-    color: var(--color-primary) !important;
     margin: 0 !important;
     z-index: 10000 !important;
     display: flex !important;
     align-items: center !important;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease !important;
   }
-  .navbar-glass {
+  
+  .navbar-fixed.navbar-transparent {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    color: var(--color-white) !important;
+  }
+  
+  .navbar-fixed.navbar-transparent .navbar-logo,
+  .navbar-fixed.navbar-transparent .logo-title {
+    color: var(--color-white) !important;
+  }
+  .navbar-fixed.navbar-transparent .nav-link-item {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+  .navbar-fixed.navbar-transparent .mobile-menu-toggle {
+    color: var(--color-white) !important;
+    min-height: 48px !important;
+    min-width: 48px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar-fixed.navbar-solid,
+  .navbar-fixed.navbar-glass {
     height: 72px !important;
     top: 0 !important;
-    background-color: rgba(255, 255, 255, 0.98) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
     color: var(--color-primary) !important;
   }
-  .navbar-fixed .navbar-logo,
-  .navbar-fixed .logo-title {
+  
+  .navbar-fixed.navbar-solid .navbar-logo,
+  .navbar-fixed.navbar-solid .logo-title,
+  .navbar-fixed.navbar-glass .navbar-logo,
+  .navbar-fixed.navbar-glass .logo-title {
     color: var(--color-primary) !important;
   }
-  .navbar-fixed .nav-link-item {
+  .navbar-fixed.navbar-solid .nav-link-item,
+  .navbar-fixed.navbar-glass .nav-link-item {
     color: rgba(30, 30, 30, 0.85) !important;
   }
-  .navbar-fixed .mobile-menu-toggle {
+  .navbar-fixed.navbar-solid .mobile-menu-toggle,
+  .navbar-fixed.navbar-glass .mobile-menu-toggle {
     color: var(--color-primary) !important;
     min-height: 48px !important;
     min-width: 48px !important;
@@ -2213,7 +2245,7 @@ img {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    padding-top: 40px !important; /* Reserves safe spacing below sticky header */
+    padding-top: 100px !important; /* Pushes the hero text safely below the 72px navbar */
     padding-bottom: 60px !important;
     margin: 0 !important;
     box-sizing: border-box !important;
