@@ -44,7 +44,7 @@ export default function Navbar({ onOpenVisitModal }) {
           isHome && !isScrolled 
             ? 'navbar-transparent' 
             : 'navbar-glass'
-        }`}
+        } ${isHome ? 'home-navbar' : ''}`}
       >
       <div className="navbar-container">
         {/* Left: Logo */}
