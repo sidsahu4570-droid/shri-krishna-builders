@@ -38,7 +38,7 @@ export default function Navbar({ onOpenVisitModal }) {
       }`}
     >
       <div className="navbar-container">
-        {/* Logo */}
+        {/* Left: Logo */}
         <Link to="/" className="navbar-logo">
           <Building className="logo-icon" />
           <div className="logo-text-wrapper">
@@ -47,7 +47,7 @@ export default function Navbar({ onOpenVisitModal }) {
           </div>
         </Link>
 
-        {/* Desktop Menu with Dropdowns */}
+        {/* Center: Desktop Navigation Links (Grouped & Narrower) */}
         <nav className="nav-menu-desktop">
           <Link to="/" className={`nav-link-item ${location.pathname === '/' ? 'nav-link-active' : ''}`}>
             Home
@@ -79,15 +79,15 @@ export default function Navbar({ onOpenVisitModal }) {
             </div>
           </div>
 
-          {/* Company Dropdown */}
+          {/* Company Dropdown (Consolidated) */}
           <div className="nav-link-item dropdown-trigger">
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'default' }}>
               Company <ChevronDown size={12} />
             </span>
             <div className="dropdown-menu-panel">
               <Link to="/about" className="dropdown-item-link">About Us</Link>
-              <Link to="/about" className="dropdown-item-link">Our Leadership</Link>
-              <Link to="/about" className="dropdown-item-link">Awards & Crests</Link>
+              <Link to="/why-choose-us" className="dropdown-item-link">Why Choose Us</Link>
+              <Link to="/careers" className="dropdown-item-link">Careers</Link>
               <Link to="/testimonials" className="dropdown-item-link">Testimonials</Link>
             </div>
           </div>
@@ -100,24 +100,20 @@ export default function Navbar({ onOpenVisitModal }) {
             Gallery
           </Link>
 
-          <Link to="/why-choose-us" className={`nav-link-item ${location.pathname === '/why-choose-us' ? 'nav-link-active' : ''}`}>
-            Why Choose Us
-          </Link>
-
-          <Link to="/investment-guide" className={`nav-link-item ${location.pathname === '/investment-guide' ? 'nav-link-active' : ''}`}>
-            Investment Guide
-          </Link>
-
-          <Link to="/blogs" className={`nav-link-item ${location.pathname === '/blogs' ? 'nav-link-active' : ''}`}>
-            Blogs
-          </Link>
-
-          <Link to="/careers" className={`nav-link-item ${location.pathname === '/careers' ? 'nav-link-active' : ''}`}>
-            Careers
-          </Link>
+          {/* Resources Dropdown (Consolidated) */}
+          <div className="nav-link-item dropdown-trigger">
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'default' }}>
+              Resources <ChevronDown size={12} />
+            </span>
+            <div className="dropdown-menu-panel">
+              <Link to="/investment-guide" className="dropdown-item-link">Investment Guide</Link>
+              <Link to="/blogs" className="dropdown-item-link">Blogs & Updates</Link>
+              <Link to="/faqs" className="dropdown-item-link">Frequently Asked FAQs</Link>
+            </div>
+          </div>
         </nav>
 
-        {/* CTA Button */}
+        {/* Right: Contact CTA Button */}
         <div className="navbar-cta-desktop">
           <Link to="/contact" className="btn btn-secondary btn-nav">
             Contact
@@ -140,7 +136,7 @@ export default function Navbar({ onOpenVisitModal }) {
           <Link to="/" className="mobile-link-item">Home</Link>
           <Link to="/about" className="mobile-link-item">About Company</Link>
           <Link to="/projects" className="mobile-link-item">Our Projects</Link>
-          <Link to="/properties" className="mobile-link-item">Properties catalog</Link>
+          <Link to="/properties" className="mobile-link-item">Properties Catalog</Link>
           <Link to="/services" className="mobile-link-item">Services</Link>
           <Link to="/gallery" className="mobile-link-item">Gallery</Link>
           <Link to="/why-choose-us" className="mobile-link-item">Why Choose Us</Link>
