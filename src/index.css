@@ -423,7 +423,7 @@ img {
 .navbar-glass {
   height: 76px;
   top: 12px;
-  background-color: rgba(255, 255, 255, 0.04) !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-color: rgba(255, 255, 255, 0.08) !important;
@@ -2180,13 +2180,11 @@ img {
 
   .navbar-fixed.navbar-solid,
   .navbar-fixed.navbar-glass {
-    height: 72px !important;
-    top: 0 !important;
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(255, 255, 255, 0.85) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+    border-bottom: 1px solid rgba(30, 30, 30, 0.06) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
     color: var(--color-primary) !important;
   }
   
@@ -2469,8 +2467,14 @@ img {
 
   /* Horizontal Timeline Nodes Stack */
   .timeline-horizontal {
+    display: flex !important;
     flex-direction: column !important;
-    gap: 2rem !important;
+    gap: 2.5rem !important;
+    padding-top: 0 !important;
+  }
+
+  .timeline-line {
+    display: none !important;
   }
 
   .timeline-node {

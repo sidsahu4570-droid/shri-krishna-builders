@@ -48,15 +48,6 @@ export default function FloatingActions({ showVisitModal, onToggleVisitModal }) 
   return (
     <>
       <div className="floating-bar">
-        {/* Scroll to Top */}
-        <button
-          onClick={scrollToTop}
-          className={`floating-btn btn-scroll-top ${isVisible ? 'visible' : ''}`}
-          aria-label="Scroll to top"
-        >
-          <ArrowUp size={20} />
-        </button>
-
         {/* Site Visit Trigger */}
         <button
           onClick={onToggleVisitModal}
